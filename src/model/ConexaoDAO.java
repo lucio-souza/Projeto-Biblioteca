@@ -7,8 +7,10 @@ public class ConexaoDAO {
 	public Connection conectarBD() {
 		Connection conn=null;
 		try {
-			String url="jdbc:mysql://localhost:3306/ProjetoBiblioteca?user=root&password=a1b2c3d4";
-			conn=DriverManager.getConnection(url);
+			String url="jdbc:mysql://localhost:3306/ProjetoBiblioteca";
+			String user="root";
+			String password="a1b2c3d4";
+			conn=DriverManager.getConnection(url,user,password);
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}
