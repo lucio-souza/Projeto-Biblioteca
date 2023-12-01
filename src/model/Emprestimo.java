@@ -4,13 +4,15 @@ import java.time.LocalDate;
 public class Emprestimo {
 	private int idCliente;
 	private int idLivro;
-	private LocalDate dtPubli;
-	
-	public Emprestimo(int idCliente, int idLivro, LocalDate dtPubli) {
+	private LocalDate dtemprestimo;
+	private LocalDate dtDevolucao;
+
+	public Emprestimo(int idCliente, int idLivro, LocalDate dtemprestimo, LocalDate dtDevolucao) {
 		super();
 		this.idCliente = idCliente;
 		this.idLivro = idLivro;
-		this.dtPubli = dtPubli;
+		this.dtemprestimo = dtemprestimo;
+		this.dtDevolucao = dtDevolucao;
 	}
 
 	public int getIdCliente() {
@@ -29,11 +31,19 @@ public class Emprestimo {
 		this.idLivro = idLivro;
 	}
 
-	public LocalDate getDtPubli() {
-		return dtPubli;
+	public LocalDate getDtemprestimo() {
+		return dtemprestimo;
 	}
 
-	public void setDtPubli(LocalDate dtPubli) {
-		this.dtPubli = dtPubli;
+	public void setDtemprestimo(LocalDate dtemprestimo) {
+		this.dtemprestimo = dtemprestimo;
+	}
+
+	public LocalDate getDtDevolucao() {
+		return dtDevolucao;
+	}
+
+	public void setDtDevolucao(LocalDate dtDevolucao) {
+		this.dtDevolucao = dtDevolucao;
 	}
 }

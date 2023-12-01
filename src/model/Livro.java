@@ -1,12 +1,14 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Livro {
 	private int id;
 	private String titulo;
 	private String genero;
-	private String dtPubli;
+	private LocalDate dtPubli;
 	
-	public Livro(int id, String titulo, String genero, String dtPubli) {
+	public Livro(int id, String titulo, String genero, LocalDate dtPubli) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
@@ -26,10 +28,10 @@ public class Livro {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-	public String getDtPubli() {
+	public LocalDate getDtPubli() {
 		return dtPubli;
 	}
-	public void setDtPubli(String dtPubli) {
+	public void setDtPubli(LocalDate dtPubli) {
 		this.dtPubli = dtPubli;
 	}
 	public String getTitulo() {
