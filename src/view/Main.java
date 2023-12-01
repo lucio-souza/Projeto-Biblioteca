@@ -1,4 +1,6 @@
-package model;
+package view;
+
+import DAO.ConexaoDAO;
 
 public class Main {
 	public static void main(String[] args){
