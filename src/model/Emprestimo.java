@@ -2,19 +2,19 @@ package model;
 import java.time.LocalDate;
 
 public class Emprestimo {
+	private int id;
 	private int idCliente;
 	private int idLivro;
-	private LocalDate dtemprestimo;
-	private LocalDate dtDevolucao;
+	private LocalDate dtReserva;
+	private LocalDate dtEntrega;
 
-	public Emprestimo(int idCliente, int idLivro, LocalDate dtemprestimo, LocalDate dtDevolucao) {
+	public Emprestimo(int idCliente, int idLivro, LocalDate dtReserva, LocalDate dtEntrega) {
 		super();
 		this.idCliente = idCliente;
 		this.idLivro = idLivro;
-		this.dtemprestimo = dtemprestimo;
-		this.dtDevolucao = dtDevolucao;
+		this.dtReserva= dtReserva;
+		this.dtEntrega=dtEntrega;
 	}
-
 	public int getIdCliente() {
 		return idCliente;
 	}
@@ -31,19 +31,27 @@ public class Emprestimo {
 		this.idLivro = idLivro;
 	}
 
-	public LocalDate getDtemprestimo() {
-		return dtemprestimo;
+	public LocalDate getDtReserva() {
+		return dtReserva;
 	}
 
-	public void setDtemprestimo(LocalDate dtemprestimo) {
-		this.dtemprestimo = dtemprestimo;
+	public void setDtReserva(LocalDate dtReserva) {
+		this.dtReserva = dtReserva;
 	}
 
 	public LocalDate getDtDevolucao() {
-		return dtDevolucao;
+		return dtEntrega;
 	}
 
-	public void setDtDevolucao(LocalDate dtDevolucao) {
-		this.dtDevolucao = dtDevolucao;
+	public void setDtDevolucao(LocalDate dtEntrega) {
+		this.dtEntrega = dtEntrega;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

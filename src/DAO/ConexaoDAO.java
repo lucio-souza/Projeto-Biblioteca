@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 public class ConexaoDAO {
 	
-	public Connection conectarBD() {
+	public static Connection conectarBD() {
 		Connection conn=null;
 		try {
 			String url="jdbc:mysql://localhost:3306/ProjetoBiblioteca";

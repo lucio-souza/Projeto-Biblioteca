@@ -2,8 +2,9 @@ package model;
 
 public class Cliente {
 	private int id;
-	private String telefone;
 	private String cpf;
+	private String nome;
+	private String telefone;
 	
 	public Cliente(int id, String telefone, String cpf) {
 		super();
@@ -30,6 +31,14 @@ public class Cliente {
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	
 	
