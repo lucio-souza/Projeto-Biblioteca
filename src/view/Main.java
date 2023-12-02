@@ -16,7 +16,8 @@ public class Main {
 		
 		livroDao.create(livro);
 		for(Livro l : livroDao.getAll()) {
-			System.out.println("livro:"+l.getStatus());
+			System.out.println("livro:"+l.getId());
 		}
+		System.out.println(livroDao.getOneByID(1).getId());
 	}
 }

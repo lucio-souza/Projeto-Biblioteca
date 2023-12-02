@@ -19,12 +19,10 @@ public class LivroDao {
 		
 		Connection conn=null;
 		PreparedStatement pstm=null;
-		
 		ResultSet rset=null;
 		try {
 			conn=ConexaoDAO.conectarBD();
 			pstm=conn.prepareStatement(sql);
-			
 			rset=pstm.executeQuery();
 			
 			while(rset.next()) {
@@ -35,7 +33,6 @@ public class LivroDao {
 				livro.setGenero(rset.getString("genero"));
 				livro.setStatus(rset.getString("status"));
 				livro.setAutor(rset.getString("autor"));
-				
 				livros.add(livro);
 
 			}
@@ -47,6 +44,38 @@ public class LivroDao {
 		}finally {
 			return livros;
 		}
+	}
+	
+	public Livro getOneByID(int id) {
+		
+		String sql="select * from Livro where id = ?";
+		Connection conn=null;
+		PreparedStatement pstm=null;
+		ResultSet rset=null;
+		
+		try {
+			conn=ConexaoDAO.conectarBD();
+			pstm=conn.prepareStatement(sql);
+			pstm.setInt(1, id);
+			rset=pstm.executeQuery();
+			
+			Livro livro=new Livro();
+			if(rset.next()) {
+			livro.setId(rset.getInt("id"));
+			livro.setTitulo(rset.getString("titulo"));
+			livro.setDtPubli(rset.getDate("dtpublicacao"));
+			livro.setGenero(rset.getString("genero"));
+			livro.setStatus(rset.getString("status"));
+			livro.setAutor(rset.getString("autor"));
+				conn.close();
+				pstm.close();
+				rset.close();
+				return livro;
+			}
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 	
 	public void create(Livro livro) {
@@ -64,7 +93,6 @@ public class LivroDao {
 			pstm.setDate(2, new Date(livro.getDtPubli().getTime()));
 			pstm.setString(3, livro.getGenero());
 			pstm.setString(4, livro.getAutor());
-			
 			pstm.execute();
 			conn.close();
 			pstm.close();
