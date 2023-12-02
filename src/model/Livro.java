@@ -17,6 +17,9 @@ public class Livro {
 		this.genero = genero;
 		this.autor = autor;
 	}
+	public Livro() {
+	}
+	
 	public int getId() {
 		return id;
 	}
