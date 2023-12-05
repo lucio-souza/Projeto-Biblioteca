@@ -12,6 +12,8 @@ public class Cliente {
 		this.telefone = telefone;
 		this.cpf = cpf;
 	}
+	public Cliente() {
+	}
 	
 	public int getId() {
 		return id;

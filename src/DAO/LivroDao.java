@@ -1,4 +1,5 @@
 package DAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-
 import model.Livro;
+
 public class LivroDao {
 	
 	@SuppressWarnings("finally")
@@ -139,6 +140,8 @@ public class LivroDao {
 			pstm.executeUpdate();
 			conn.close();
 			pstm.close();
+		}catch(SQLIntegrityConstraintViolationException e) {
+			System.out.println("livro já existente");
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}
