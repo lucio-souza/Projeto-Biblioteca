@@ -60,6 +60,9 @@ public class ClienteDao {
 				cliente.setId(rset.getInt("id"));
 				return cliente;
 			}
+			conn.close();
+			pstm.close();
+			rset.close();
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}

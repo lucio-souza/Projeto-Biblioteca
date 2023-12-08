@@ -30,6 +30,8 @@ public class BibliotecarioDao {
 				bibliotecario.setId(rset.getInt("Id"));
 				bibliotecarios.add(bibliotecario);
 			}
+			conn.close();
+			pstm.close();
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}finally {
@@ -56,7 +58,9 @@ public class BibliotecarioDao {
 				bibliotecario.setId(rset.getInt("Id"));
 				return bibliotecario;
 			}
-
+			conn.close();
+			pstm.close();
+			rset.close();
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}

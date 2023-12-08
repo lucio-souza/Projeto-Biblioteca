@@ -8,12 +8,11 @@ public class Emprestimo {
 	private LocalDate dtReserva;
 	private LocalDate dtEntrega;
 
-	public Emprestimo(int idCliente, int idLivro, LocalDate dtReserva, LocalDate dtEntrega) {
+	public Emprestimo(int idCliente, int idLivro, LocalDate dtReserva) {
 		super();
 		this.idCliente = idCliente;
 		this.idLivro = idLivro;
 		this.dtReserva= dtReserva;
-		this.dtEntrega=dtEntrega;
 	}
 	public int getIdCliente() {
 		return idCliente;
@@ -39,11 +38,11 @@ public class Emprestimo {
 		this.dtReserva = dtReserva;
 	}
 
-	public LocalDate getDtDevolucao() {
+	public LocalDate getDtentrega() {
 		return dtEntrega;
 	}
 
-	public void setDtDevolucao(LocalDate dtEntrega) {
+	public void setDtEntrega(LocalDate dtEntrega) {
 		this.dtEntrega = dtEntrega;
 	}
 
@@ -54,4 +53,11 @@ public class Emprestimo {
 	public void setId(int id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "Emprestimo [id=" + id + ", idCliente=" + idCliente + ", idLivro=" + idLivro + ", dtReserva=" + dtReserva
+				+ ", dtEntrega=" + dtEntrega + "]";
+	}
+	
+	
 }

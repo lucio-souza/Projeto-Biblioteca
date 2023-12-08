@@ -45,7 +45,7 @@ public class LivroDao {
 		}
 	}
 	
-	public Livro getOneByID(int id){
+	public static Livro getOneByID(int id){
 		
 		String sql="select * from Livro where id = ?";
 		Connection conn=null;
@@ -113,6 +113,26 @@ public class LivroDao {
 			pstm.execute();
 			conn.close();
 			pstm.close();
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void atualizarStatus(int id,String status) {
+		String sql="update Livro set status=? where id=?";
+		Connection conn=null;
+		PreparedStatement pstm=null;
+		
+		try {
+			conn=ConexaoDAO.conectarBD();
+			pstm=conn.prepareStatement(sql);
+			pstm.setString(1,status);	
+			pstm.setInt(2, id);
+			pstm.executeUpdate();
+			conn.close();
+			pstm.close();
+		}catch(SQLIntegrityConstraintViolationException e) {
+			System.out.println("livro já existente");
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}
