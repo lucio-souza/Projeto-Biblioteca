@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 import model.Emprestimo;
-import model.Livro;
 
 import java.time.LocalDate;
 public class EmprestimoDao {
@@ -45,13 +44,11 @@ public class EmprestimoDao {
 		return emprestimos;
 	}
 
-	public Emprestimo getOneById(int id) {
+	public Emprestimo getOneById(int id) throws SQLException{
 		String sql="select * from Emprestimo where id=?";
 		Connection conn=null;
 		PreparedStatement pstm=null;
 		ResultSet rset=null;
-		
-		try {
 			conn=ConexaoDAO.conectarBD();
 			pstm=conn.prepareStatement(sql);
 			pstm.setInt(1, id);
@@ -70,13 +67,10 @@ public class EmprestimoDao {
 			conn.close();
 			pstm.close();
 			rset.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return null;
 	}
 	
-	public void Emprestar(Emprestimo emprestimo) {
+	public void Emprestar(Emprestimo emprestimo) throws SQLException{
 		String sql="insert into Emprestimo(idcliente,idlivro,dtreserva,dtentrega)values(?,?,?,?)";
 		Connection conn=null;
 		PreparedStatement pstm=null;

@@ -12,7 +12,7 @@ import model.Livro;
 public class LivroDao {
 	
 	@SuppressWarnings("finally")
-	public List<Livro> getAll() {
+	public List<Livro> getAll()throws SQLException {
 		
 		String sql=("select * from Livro");
 		List<Livro> livros=new ArrayList<>();
@@ -45,14 +45,13 @@ public class LivroDao {
 		}
 	}
 	
-	public static Livro getOneByID(int id){
+	public static Livro getOneByID(int id)throws SQLException{
 		
 		String sql="select * from Livro where id = ?";
 		Connection conn=null;
 		PreparedStatement pstm=null;
 		ResultSet rset=null;
 		
-		try {
 			conn=ConexaoDAO.conectarBD();
 			pstm=conn.prepareStatement(sql);
 			pstm.setInt(1, id);
@@ -70,23 +69,18 @@ public class LivroDao {
 				rset.close();
 				return livro;
 			}
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+
 		return null;
 	}
 	
-	public void create(Livro livro) {
+	public void create(Livro livro) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="insert into Livro(titulo,dtPublicacao,genero,autor) values(?,?,?,?)";
 
 		Connection conn=null;
 		PreparedStatement pstm=null;
-		
-		try {
 			conn=ConexaoDAO.conectarBD();
 			pstm=conn.prepareStatement(sql);
 			
-			//adciona valores na query
 			pstm.setString(1, livro.getTitulo());
 			pstm.setObject(2, livro.getDtPubli());
 			pstm.setString(3, livro.getGenero());
@@ -94,72 +88,49 @@ public class LivroDao {
 			pstm.execute();
 			conn.close();
 			pstm.close();
-		}catch(SQLIntegrityConstraintViolationException e) {
-			System.out.println("livro já existente");
-		}catch(SQLException ex) {
-			ex.printStackTrace();	
-		}
 	}
 	
-	public void delete(int id) {
+	public void delete(int id) throws SQLException{
 		String sql="delete from Livro where id=?";
 		Connection conn=null;
 		PreparedStatement pstm=null;
-		
-		try {
 			conn=ConexaoDAO.conectarBD();
 			pstm=conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			pstm.execute();
 			conn.close();
 			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
 	}
 	
-	public void atualizarStatus(int id,String status) {
+	public void atualizarStatus(int id,String status) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="update Livro set status=? where id=?";
 		Connection conn=null;
 		PreparedStatement pstm=null;
-		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setString(1,status);	
-			pstm.setInt(2, id);
-			pstm.executeUpdate();
-			conn.close();
-			pstm.close();
-		}catch(SQLIntegrityConstraintViolationException e) {
-			System.out.println("livro já existente");
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+		conn=ConexaoDAO.conectarBD();
+		pstm=conn.prepareStatement(sql);
+		pstm.setString(1,status);	
+		pstm.setInt(2, id);
+		pstm.executeUpdate();
+		conn.close();
+		pstm.close();
 	}
 	
-	public void Update(Livro livro) {
+	public void Update(Livro livro) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="update Livro set titulo=?, dtPublicacao=?, genero=?, status=?, autor=? where id=?";
 		
 		Connection conn=null;
 		PreparedStatement pstm=null;
-		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setString(1, livro.getTitulo());
-			pstm.setObject(2,livro.getDtPubli());
-			pstm.setString(3, livro.getGenero());
-			pstm.setString(4, livro.getStatus());;
-			pstm.setString(5, livro.getAutor());
-			pstm.setInt(6, livro.getId());
-			pstm.executeUpdate();
-			conn.close();
-			pstm.close();
-		}catch(SQLIntegrityConstraintViolationException e) {
-			System.out.println("livro já existente");
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+		conn=ConexaoDAO.conectarBD();
+		pstm=conn.prepareStatement(sql);
+		pstm.setString(1, livro.getTitulo());
+		pstm.setObject(2,livro.getDtPubli());
+		pstm.setString(3, livro.getGenero());
+		pstm.setString(4, livro.getStatus());;
+		pstm.setString(5, livro.getAutor());
+		pstm.setInt(6, livro.getId());
+		pstm.executeUpdate();
+		conn.close();
+		pstm.close();
+
 	}
 }
