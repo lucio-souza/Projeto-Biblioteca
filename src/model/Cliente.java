@@ -6,14 +6,13 @@ public class Cliente {
 	private String nome;
 	private String telefone;
 	
-	public Cliente(int id, String telefone, String cpf) {
+	public Cliente(String nome, String telefone, String cpf) {
 		super();
-		this.id = id;
+		this.nome=nome;
 		this.telefone = telefone;
 		this.cpf = cpf;
 	}
-	public Cliente() {
-	}
+
 	
 	public int getId() {
 		return id;
@@ -41,6 +40,12 @@ public class Cliente {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", telefone=" + telefone + "]";
 	}
 	
 	

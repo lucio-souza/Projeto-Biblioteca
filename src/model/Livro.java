@@ -18,8 +18,6 @@ public class Livro {
 		this.autor = autor;
 		this.status=status;
 	}
-	public Livro() {
-	}
 	
 	public int getId() {
 		return id;

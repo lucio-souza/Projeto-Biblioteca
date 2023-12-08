@@ -26,16 +26,14 @@ public class LivroDao {
 			rset=pstm.executeQuery();
 			
 			while(rset.next()) {
-				Livro livro=new Livro();
-				livro.setId(rset.getInt("id"));
-				livro.setTitulo(rset.getString("titulo"));
+				String titulo=rset.getString("titulo");
 				java.sql.Date sqlDate=rset.getDate("dtpublicacao");
-				livro.setDtPubli(sqlDate.toLocalDate());
-				livro.setGenero(rset.getString("genero"));
-				livro.setStatus(rset.getString("status"));
-				livro.setAutor(rset.getString("autor"));
+				String genero=rset.getString("genero");
+				String status=rset.getString("status");
+				String autor=rset.getString("autor");			
+				Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+				livro.setId(rset.getInt("id"));
 				livros.add(livro);
-
 			}
 			conn.close();
 			pstm.close();
@@ -59,16 +57,14 @@ public class LivroDao {
 			pstm=conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			rset=pstm.executeQuery();
-			
-			Livro livro=new Livro();
 			if(rset.next()) {
-			livro.setId(rset.getInt("id"));
-			livro.setTitulo(rset.getString("titulo"));
-			java.sql.Date sqlDate=rset.getDate("dtpublicacao");
-			livro.setDtPubli(sqlDate.toLocalDate());
-			livro.setGenero(rset.getString("genero"));
-			livro.setStatus(rset.getString("status"));
-			livro.setAutor(rset.getString("autor"));
+				String titulo=rset.getString("titulo");
+				java.sql.Date sqlDate=rset.getDate("dtpublicacao");
+				String genero=rset.getString("genero");
+				String status=rset.getString("status");
+				String autor=rset.getString("autor");			
+				Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+				livro.setId(rset.getInt("id"));
 				conn.close();
 				pstm.close();
 				rset.close();

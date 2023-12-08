@@ -24,11 +24,11 @@ public class ClienteDao {
 			rset=pstm.executeQuery();
 			
 			while(rset.next()) {
-				Cliente cliente=new Cliente();
-				cliente.setId(rset.getInt("Id"));
-				cliente.setCpf(rset.getString("cpf"));
-				cliente.setNome(rset.getString("nome"));
-				cliente.setTelefone(rset.getString("telefone"));
+				String cpf=rset.getString("cpf");
+				String nome=rset.getString("nome");
+				String telefone=rset.getString("telefone");
+				Cliente cliente=new Cliente(nome,cpf,telefone);
+				cliente.setId(rset.getInt("id"));
 				clientes.add(cliente);
 			}
 			conn.close();
@@ -48,19 +48,18 @@ public class ClienteDao {
 		ResultSet rset=null;
 
 		try {		
-			Cliente cliente=new Cliente();
 			conn=ConexaoDAO.conectarBD();
 			pstm=conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			rset=pstm.executeQuery();
-
 			if(rset.next()) {
-				cliente.setId(rset.getInt("Id"));
-				cliente.setCpf(rset.getString("cpf"));
-				cliente.setNome(rset.getString("nome"));
-				cliente.setTelefone(rset.getString("telefone"));
+				String nome=rset.getString("nome");
+				String telefone=rset.getString("telefone");
+				String cpf=rset.getString("cpf");
+				Cliente cliente=new Cliente(nome,telefone,cpf);
+				cliente.setId(rset.getInt("id"));
+				return cliente;
 			}
-			return cliente;
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}

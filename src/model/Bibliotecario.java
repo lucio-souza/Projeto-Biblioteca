@@ -5,6 +5,11 @@ public class Bibliotecario {
 	private String email;
 	private int senha;
 	
+	public Bibliotecario(String email,int senha) {
+		super();
+		this.email=email;
+		this.senha=senha;
+	}
 	public int getId() {
 		return id;
 	}
@@ -23,5 +28,9 @@ public class Bibliotecario {
 	public void setSenha(int senha) {
 		this.senha = senha;
 	}
-
+	@Override
+	public String toString() {
+		return "Bibliotecario [id=" + id + ", email=" + email + ", senha=" + senha + "]";
+	}
+	
 }

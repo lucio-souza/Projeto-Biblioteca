@@ -24,10 +24,10 @@ public class BibliotecarioDao {
 			rset=pstm.executeQuery();
 			
 			while(rset.next()) {
-				Bibliotecario bibliotecario=new Bibliotecario();
-				bibliotecario.setId(rset.getInt("id"));
-				bibliotecario.setEmail(rset.getString("email"));
-				bibliotecario.setSenha(rset.getInt("senha"));
+				String email=rset.getString("email");
+				int senha=rset.getInt("senha");
+				Bibliotecario bibliotecario=new Bibliotecario(email,senha);
+				bibliotecario.setId(rset.getInt("Id"));
 				bibliotecarios.add(bibliotecario);
 			}
 		}catch(SQLException ex) {
@@ -44,18 +44,19 @@ public class BibliotecarioDao {
 		ResultSet rset=null;
 
 		try {		
-			Bibliotecario bibliotecario=new Bibliotecario();
 			conn=ConexaoDAO.conectarBD();
 			pstm=conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			rset=pstm.executeQuery();
 
 			if(rset.next()) {
+				String email=rset.getString("email");
+				int senha=rset.getInt("senha");
+				Bibliotecario bibliotecario=new Bibliotecario(email,senha);
 				bibliotecario.setId(rset.getInt("Id"));
-				bibliotecario.setEmail(rset.getString("email"));
-				bibliotecario.setSenha(rset.getInt("senha"));
+				return bibliotecario;
 			}
-			return bibliotecario;
+
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -80,7 +81,7 @@ public class BibliotecarioDao {
 	}
 	
 	public void create(Bibliotecario bibliotecario){
-		String sql="insert into Cliente(email,senha) values(?,?)";
+		String sql="insert into Bibliotecario(email,senha) values(?,?)";
 		Connection conn=null;
 		PreparedStatement pstm=null;
 		
@@ -98,7 +99,7 @@ public class BibliotecarioDao {
 	}
 	
 	public void update(Bibliotecario bibliotecario) {
-		String sql="update Livro set email=?,senha=? where id=?";
+		String sql="update Bibliotecario set email=?,senha=? where id=?";
 		Connection conn=null;
 		PreparedStatement pstm=null;
 		
