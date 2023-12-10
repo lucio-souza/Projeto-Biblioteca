@@ -6,118 +6,89 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 public class BibliotecarioDao {
 	
-	@SuppressWarnings("finally")
-	public List<Bibliotecario> getAll(){
+
+	public List<Bibliotecario> getAll() throws SQLException{
 		String sql="select * from Bibliotecario";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		ResultSet rset=null;
+
 		List<Bibliotecario> bibliotecarios=new ArrayList<>();
 		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			rset=pstm.executeQuery();
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rset=pstm.executeQuery();
 			
-			while(rset.next()) {
-				String email=rset.getString("email");
-				int senha=rset.getInt("senha");
-				Bibliotecario bibliotecario=new Bibliotecario(email,senha);
-				bibliotecario.setId(rset.getInt("Id"));
-				bibliotecarios.add(bibliotecario);
-			}
-			conn.close();
-			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}finally {
-			return bibliotecarios;
+		while(rset.next()) {
+			String email=rset.getString("email");
+			int senha=rset.getInt("senha");
+			Bibliotecario bibliotecario=new Bibliotecario(email,senha);
+			bibliotecario.setId(rset.getInt("Id"));
+			bibliotecarios.add(bibliotecario);
 		}
+		conn.close();
+		pstm.close();
+		return bibliotecarios;
 	}
 	
-	public Bibliotecario getOneById(int id) {
+	public Bibliotecario getOneById(int id) throws SQLException{
 		String sql="select * from Bibliotecario where id=?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		ResultSet rset=null;
 
-		try {		
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setInt(1, id);
-			rset=pstm.executeQuery();
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, id);
+		ResultSet rset=pstm.executeQuery();
 
-			if(rset.next()) {
-				String email=rset.getString("email");
-				int senha=rset.getInt("senha");
-				Bibliotecario bibliotecario=new Bibliotecario(email,senha);
-				bibliotecario.setId(rset.getInt("Id"));
-				return bibliotecario;
-			}
-			conn.close();
-			pstm.close();
-			rset.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
+		if(rset.next()) {
+			String email=rset.getString("email");
+			int senha=rset.getInt("senha");
+			Bibliotecario bibliotecario=new Bibliotecario(email,senha);
+			bibliotecario.setId(rset.getInt("Id"));
+			return bibliotecario;
 		}
+		conn.close();
+		pstm.close();
+		rset.close();
 		return null;
 	}
 	
-	public void delete(int id) {
+	public void delete(int id)throws SQLException {
 		String sql="delete from Bibliotecario where id=?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
+		 
+			Connection conn=ConexaoDAO.conectarBD();
+			PreparedStatement pstm=conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			pstm.execute();
 			conn.close();
 			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+
 	}
 	
-	public void create(Bibliotecario bibliotecario){
+	public void create(Bibliotecario bibliotecario)throws SQLException{
 		String sql="insert into Bibliotecario(email,senha) values(?,?)";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setString(1, bibliotecario.getEmail());
-			pstm.setInt(2, bibliotecario.getSenha());
-			pstm.execute();
-			conn.close();
-			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setString(1, bibliotecario.getEmail());
+		pstm.setInt(2, bibliotecario.getSenha());
+		pstm.execute();
+		conn.close();
+		pstm.close();
+
 	}
 	
-	public void update(Bibliotecario bibliotecario) {
+	public void update(Bibliotecario bibliotecario)throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="update Bibliotecario set email=?,senha=? where id=?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
 		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
+			Connection conn=ConexaoDAO.conectarBD();
+			PreparedStatement pstm=conn.prepareStatement(sql);
 			pstm.setString(1,bibliotecario.getEmail());
 			pstm.setInt(2, bibliotecario.getSenha());
 			pstm.setInt(3, bibliotecario.getId());
 			pstm.executeUpdate();
 			conn.close();
 			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
 	}
 }

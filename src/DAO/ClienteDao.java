@@ -76,37 +76,29 @@ public class ClienteDao {
 			pstm.close();
 	}
 	
-	public void delete(int id) {
+	public void delete(int id) throws SQLException{
 		String sql="delete from Cliente where id = ?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
 		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setInt(1, id);
-			pstm.execute();
-			conn.close();
-			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, id);
+		pstm.execute();
+		conn.close();
+		pstm.close();
 	}
 	
 	public void update(Cliente cliente) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="update Cliente set cpf=?,nome=?,telefone=? where id=?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setString(1, cliente.getCpf());
-			pstm.setString(2, cliente.getNome());
-			pstm.setString(3, cliente.getTelefone());
-			pstm.setInt(4, cliente.getId());
-			pstm.executeUpdate();
-			conn.close();
-			pstm.close();
-
+		
+		Connection 	conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		
+		pstm.setString(1, cliente.getCpf());
+		pstm.setString(2, cliente.getNome());
+		pstm.setString(3, cliente.getTelefone());
+		pstm.setInt(4, cliente.getId());
+		pstm.executeUpdate();
+		conn.close();
+		pstm.close();
 	}
 }

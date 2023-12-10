@@ -7,6 +7,7 @@ public class Emprestimo {
 	private int idLivro;
 	private LocalDate dtReserva;
 	private LocalDate dtEntrega;
+	private String status;
 
 	public Emprestimo(int idCliente, int idLivro, LocalDate dtReserva) {
 		super();
@@ -53,11 +54,17 @@ public class Emprestimo {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	@Override
 	public String toString() {
 		return "Emprestimo [id=" + id + ", idCliente=" + idCliente + ", idLivro=" + idLivro + ", dtReserva=" + dtReserva
-				+ ", dtEntrega=" + dtEntrega + "]";
+				+ ", dtEntrega=" + dtEntrega + ", status=" + status + "]";
 	}
-	
-	
 }
