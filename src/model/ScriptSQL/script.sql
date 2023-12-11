@@ -25,6 +25,34 @@ idCliente int,
 idLivro int,
 dtReserva date not null,
 dtEntrega date,
+status varchar(20) default'Em Andamento',
 constraint chaveCliente foreign key(idCliente) references Cliente(id),
 constraint chaveLivro foreign key(idLivro) references Livro(id)
 );
+DELIMITER //
+CREATE TRIGGER gatilho_definir_dtEntrega
+BEFORE INSERT ON Emprestimo
+FOR EACH ROW
+BEGIN
+    SET NEW.dtEntrega = DATE_ADD(NEW.dtReserva, INTERVAL 10 DAY);
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE atualizarStatusAtrasado()
+BEGIN
+    UPDATE Emprestimo
+    SET status = 'atrasado'
+    WHERE dtEntrega < CURDATE();
+END;
+//
+
+CREATE EVENT verificarAtraso
+ON SCHEDULE EVERY 1 DAY 
+DO
+BEGIN
+    CALL atualizarStatusAtrasado();
+END;
+//
+DELIMITER ;
