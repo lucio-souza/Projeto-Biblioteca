@@ -68,10 +68,21 @@ public class EmprestimoDao {
 		return null;
 	}
 	
-	public void Emprestar(Emprestimo emprestimo) throws SQLException{
-		String sql="insert into Emprestimo(idcliente,idlivro,dtreserva,dtentrega)values(?,?,?,?)";
+    public boolean verificarEmprestimoPendente(int idCliente) throws SQLException {
+        String sql = "SELECT id FROM Emprestimo WHERE idCliente = ? AND (status = 'Em andamento' OR status = 'Atrasado')";
 
-			if(LivroDao.getOneByID(emprestimo.getIdLivro()).getStatus().equals("Disponivel")){
+        Connection conn = ConexaoDAO.conectarBD();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, idCliente);
+        ResultSet rs = pstmt.executeQuery();
+        return rs.next();
+    }
+	
+	public void emprestar(Emprestimo emprestimo) throws SQLException{
+		String sql="insert into Emprestimo(idcliente,idlivro,dtreserva,dtentrega)values(?,?,?,?)";
+		
+		if(!verificarEmprestimoPendente(emprestimo.getIdCliente())) {
+			if(LivroDao.getOneByID(emprestimo.getIdLivro()).getStatus().equals("disponivel")){
 				Connection conn=ConexaoDAO.conectarBD();
 				PreparedStatement pstm=conn.prepareStatement(sql);
 				
@@ -89,21 +100,24 @@ public class EmprestimoDao {
 			}else {
 				System.out.println("livro indisponivel");
 			}
+		}else {
+			System.out.println("o cliente tem pendências");
+		}
 	}
-		public void devolverLivro(int id) throws SQLException{
-			String sql="update Emprestimo set status=? where id=?";
+	public void devolverLivro(int id) throws SQLException{
+		String sql="update Emprestimo set status=? where id=?";
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
 			
-			Connection conn=ConexaoDAO.conectarBD();
-			PreparedStatement pstm=conn.prepareStatement(sql);
-			String status="Devolvido";
-			pstm.setString(1,status);
-			pstm.setInt(2, id);
-			pstm.executeUpdate();
+		String status="Devolvido";
+		pstm.setString(1,status);
+		pstm.setInt(2, id);
+		pstm.executeUpdate();
 			
-			String statusLivro="Disponivel";
-			LivroDao l=new LivroDao();
-			int idLivro=getOneById(id).getId();
-			l.atualizarStatus(idLivro, statusLivro);
+		String statusLivro="Disponivel";
+		LivroDao livroDao=new LivroDao();
+		int idLivro=getOneById(id).getId();
+		livroDao.atualizarStatus(idLivro, statusLivro);
 	}
 		
 	public void delete(int id) throws SQLException {
@@ -115,6 +129,5 @@ public class EmprestimoDao {
 		pstm.execute();
 		conn.close();
 		pstm.close();
-
 	}
 }

@@ -14,9 +14,7 @@ public class BibliotecarioDao {
 
 	public List<Bibliotecario> getAll() throws SQLException{
 		String sql="select * from Bibliotecario";
-
 		List<Bibliotecario> bibliotecarios=new ArrayList<>();
-		
 		Connection conn=ConexaoDAO.conectarBD();
 		PreparedStatement pstm=conn.prepareStatement(sql);
 		ResultSet rset=pstm.executeQuery();
@@ -35,9 +33,9 @@ public class BibliotecarioDao {
 	
 	public Bibliotecario getOneById(int id) throws SQLException{
 		String sql="select * from Bibliotecario where id=?";
-
 		Connection conn=ConexaoDAO.conectarBD();
 		PreparedStatement pstm=conn.prepareStatement(sql);
+		
 		pstm.setInt(1, id);
 		ResultSet rset=pstm.executeQuery();
 
@@ -56,39 +54,37 @@ public class BibliotecarioDao {
 	
 	public void delete(int id)throws SQLException {
 		String sql="delete from Bibliotecario where id=?";
-		 
-			Connection conn=ConexaoDAO.conectarBD();
-			PreparedStatement pstm=conn.prepareStatement(sql);
-			pstm.setInt(1, id);
-			pstm.execute();
-			conn.close();
-			pstm.close();
-
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		
+		pstm.setInt(1, id);
+		pstm.execute();
+		conn.close();
+		pstm.close();
 	}
 	
 	public void create(Bibliotecario bibliotecario)throws SQLException{
 		String sql="insert into Bibliotecario(email,senha) values(?,?)";
-
 		Connection conn=ConexaoDAO.conectarBD();
 		PreparedStatement pstm=conn.prepareStatement(sql);
+		
 		pstm.setString(1, bibliotecario.getEmail());
 		pstm.setInt(2, bibliotecario.getSenha());
 		pstm.execute();
 		conn.close();
 		pstm.close();
-
 	}
 	
 	public void update(Bibliotecario bibliotecario)throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="update Bibliotecario set email=?,senha=? where id=?";
+		Connection conn=ConexaoDAO.conectarBD();
 		
-			Connection conn=ConexaoDAO.conectarBD();
-			PreparedStatement pstm=conn.prepareStatement(sql);
-			pstm.setString(1,bibliotecario.getEmail());
-			pstm.setInt(2, bibliotecario.getSenha());
-			pstm.setInt(3, bibliotecario.getId());
-			pstm.executeUpdate();
-			conn.close();
-			pstm.close();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setString(1,bibliotecario.getEmail());
+		pstm.setInt(2, bibliotecario.getSenha());
+		pstm.setInt(3, bibliotecario.getId());
+		pstm.executeUpdate();
+		conn.close();
+		pstm.close();
 	}
 }

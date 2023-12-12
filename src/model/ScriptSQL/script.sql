@@ -17,7 +17,7 @@ create table Cliente(
 id int auto_increment primary key,
 cpf varchar(20) unique,
 nome varchar(50) not null,
-telefone int
+telefone varchar(20)
 );
 create table Emprestimo(
 id int auto_increment primary key,

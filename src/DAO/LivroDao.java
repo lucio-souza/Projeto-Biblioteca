@@ -15,32 +15,31 @@ public class LivroDao {
 		String sql=("select * from Livro");
 		List<Livro> livros=new ArrayList<>();
 		
-			Connection conn=ConexaoDAO.conectarBD();
-			PreparedStatement pstm=conn.prepareStatement(sql);
-			ResultSet rset=pstm.executeQuery();
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rset=pstm.executeQuery();
 			
-			while(rset.next()) {
-				String titulo=rset.getString("titulo");
-				java.sql.Date sqlDate=rset.getDate("dtpublicacao");
-				String genero=rset.getString("genero");
-				String status=rset.getString("status");
-				String autor=rset.getString("autor");			
-				Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
-				livro.setId(rset.getInt("id"));
-				livros.add(livro);
-			}
-			conn.close();
-			pstm.close();
-			rset.close();
-			return livros;
+		while(rset.next()) {
+			String titulo=rset.getString("titulo");
+			java.sql.Date sqlDate=rset.getDate("dtpublicacao");
+			String genero=rset.getString("genero");
+			String status=rset.getString("status");
+			String autor=rset.getString("autor");			
+			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+			livro.setId(rset.getInt("id"));
+			livros.add(livro);
+		}
+		conn.close();
+		pstm.close();
+		rset.close();
+		return livros;
 	}
 	
 	public static Livro getOneByID(int id)throws SQLException{
-		
 		String sql="select * from Livro where id = ?";
-		
 		Connection conn=ConexaoDAO.conectarBD();
 		PreparedStatement pstm=conn.prepareStatement(sql);
+		
 		pstm.setInt(1, id);
 		ResultSet rset=pstm.executeQuery();
 		
@@ -63,7 +62,6 @@ public class LivroDao {
 	
 	public void create(Livro livro) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="insert into Livro(titulo,dtPublicacao,genero,autor) values(?,?,?,?)";
-;
 		Connection conn=ConexaoDAO.conectarBD();
 		PreparedStatement pstm=conn.prepareStatement(sql);
 			
@@ -78,7 +76,6 @@ public class LivroDao {
 	
 	public void delete(int id) throws SQLException{
 		String sql="delete from Livro where id=?";
-		
 		Connection conn=ConexaoDAO.conectarBD();
 		PreparedStatement pstm=conn.prepareStatement(sql);
 		
@@ -92,6 +89,7 @@ public class LivroDao {
 		String sql="update Livro set status=? where id=?";
 		Connection conn=ConexaoDAO.conectarBD();
 		PreparedStatement pstm=conn.prepareStatement(sql);
+		
 		pstm.setString(1,status);	
 		pstm.setInt(2, id);
 		pstm.executeUpdate();
@@ -101,7 +99,6 @@ public class LivroDao {
 	
 	public void Update(Livro livro) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="update Livro set titulo=?, dtPublicacao=?, genero=?, status=?, autor=? where id=?";
-		
 		Connection conn=ConexaoDAO.conectarBD();
 		PreparedStatement pstm=conn.prepareStatement(sql);
 		
@@ -114,6 +111,5 @@ public class LivroDao {
 		pstm.executeUpdate();
 		conn.close();
 		pstm.close();
-
 	}
 }
