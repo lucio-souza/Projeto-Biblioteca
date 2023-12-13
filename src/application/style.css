@@ -1,0 +1,7 @@
+.botao {
+ -fx-font-size: 10px;
+ -fx-background-color: red;
+    -fx-font-family: "Arial";
+    -fx-text-fill: #3498db;
+    -fx-font-weight: bold;
+}
