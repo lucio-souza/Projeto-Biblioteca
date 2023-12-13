@@ -11,6 +11,9 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 public class BibliotecarioDao {
+
+	
+
 	public List<Bibliotecario> getAll() throws SQLException{
 		String sql="select * from Bibliotecario";
 		List<Bibliotecario> bibliotecarios=new ArrayList<>();
@@ -28,27 +31,6 @@ public class BibliotecarioDao {
 		conn.close();
 		pstm.close();
 		return bibliotecarios;
-	}
-	
-	public Bibliotecario getOneByemail(String email) throws SQLException{
-		String sql="select * from Bibliotecario where email=?";
-		Connection conn=ConexaoDAO.conectarBD();
-		PreparedStatement pstm=conn.prepareStatement(sql);
-		
-		pstm.setString(1, email);
-		ResultSet rset=pstm.executeQuery();
-
-		if(rset.next()) {
-			rset.getString("email");
-			int senha=rset.getInt("senha");
-			Bibliotecario bibliotecario=new Bibliotecario(email,senha);
-			bibliotecario.setId(rset.getInt("Id"));
-			return bibliotecario;
-		}
-		conn.close();
-		pstm.close();
-		rset.close();
-		return null;
 	}
 	
 	public Bibliotecario getOneById(int id) throws SQLException{

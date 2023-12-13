@@ -78,7 +78,9 @@ public class EmprestimoDao {
         return rs.next();
     }
 	
-	public void emprestar(Emprestimo emprestimo) throws SQLIntegrityConstraintViolationException,SQLException{
+
+	public void emprestar(Emprestimo emprestimo) throws SQLException{
+
 		String sql="insert into Emprestimo(idcliente,idlivro,dtreserva,dtentrega)values(?,?,?,?)";
 		
 		if(!verificarEmprestimoPendente(emprestimo.getIdCliente())) {

@@ -1,33 +1,22 @@
 package view;
-
+import java.sql.SQLException;
 import java.time.LocalDate;
-
 
 import DAO.*;
 import model.*;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-
-
-public class Main extends Application {
-	@Override
-	public void start(Stage primaryStage) {
+public class Main {
+	public static void main(String[] args){
+		EmprestimoDao e=new EmprestimoDao();
+		LivroDao l=new LivroDao();
+		ClienteDao c=new ClienteDao();
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getAll());
+			System.out.println(l.getAll());
+			System.out.println(c.getAll());
+			e.emprestar(new Emprestimo(16, 8, LocalDate.now()));
+			System.out.println(e.getOneById(1));
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}
 		}
 	}
-	
-	public static void main(String[] args) {
-		launch(args);
-	}
-}
-
