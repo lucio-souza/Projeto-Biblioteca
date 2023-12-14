@@ -25,11 +25,11 @@ public class Controller {
         viewLogin.mostrar(stage);
     }
 
-    public void realizarAutenticacao(String email, int senha) {
+    public void realizarAutenticacao(String email, int senha,Stage stage) {
         if (autenticarUsuario(email, senha)) {
             viewPrincipal.mostrar(new Bibliotecario(email, senha));
         } else {
-           System.out.println("usuario errado");
+            System.out.println("usuario invalido");
         }
     }
 
@@ -37,7 +37,7 @@ public class Controller {
     	BibliotecarioDao b =new BibliotecarioDao();
     	try {
     	Bibliotecario bi=b.getOneByemail(email);
-        if(bi.getSenha()==senha) {
+        if(bi != null && bi.getSenha()==senha) {
         	return true;
         }
     	}catch(SQLException ex) {

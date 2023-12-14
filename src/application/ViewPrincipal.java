@@ -2,33 +2,52 @@ package application;
 import controller.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Bibliotecario;
 	public class ViewPrincipal {
 	    private Controller controller;
+		String cssFile = getClass().getResource("style.css").toExternalForm();
 
 	    public ViewPrincipal(Stage stage) {
-	        VBox vbox = new VBox(10);
+	        GridPane gridPane = new GridPane();
+	        gridPane.setVgap(10);
+	        gridPane.setHgap(10);
+	        
+	        Label labelTexto=new Label("BIBLIOTECA");
+	        GridPane.setConstraints(labelTexto, 0, 0);
+	        labelTexto.setId("label-view-principal");
 
 	        Button btnEmprestimos = new Button("Empréstimos");
 	        btnEmprestimos.setOnAction(e -> controller.mostrarTelaEmprestimos());
-	        vbox.getChildren().add(btnEmprestimos);
+	        GridPane.setConstraints(btnEmprestimos, 0, 0);
+	        btnEmprestimos.setId("botao-Emprestimo");
+	        btnEmprestimos.getStyleClass().add("botao-view-principal");
 
 	        Button btnLivros = new Button("Livros");
 	        btnLivros.setOnAction(e -> controller.mostrarTelaLivros());
-	        vbox.getChildren().add(btnLivros);
+	        GridPane.setConstraints(btnLivros, 1, 0);
+	        btnLivros.getStyleClass().add("botao-view-principal");
+	        btnLivros.setId("botao-Livro");
 
 	        Button btnClientes = new Button("Clientes");
 	        btnClientes.setOnAction(e -> controller.mostrarTelaClientes());
-	        vbox.getChildren().add(btnClientes);
+	        GridPane.setConstraints(btnClientes, 0, 1);
+	        btnClientes.getStyleClass().add("botao-view-principal");
+	        btnClientes.setId("botao-Cliente");
 
 	        Button btnUsuarios = new Button("Usuários");
 	        btnUsuarios.setOnAction(e -> controller.mostrarTelaUsuarios());
-	        vbox.getChildren().add(btnUsuarios);
-
-	        Scene scene = new Scene(vbox, 300, 200);
+	        GridPane.setConstraints(btnUsuarios, 1, 1);
+	        btnUsuarios.getStyleClass().add("botao-view-principal");
+	        btnUsuarios.setId("botao-Usuario");
+	        
+	        gridPane.getChildren().addAll(labelTexto,btnEmprestimos,btnLivros,btnClientes,btnUsuarios);
+	        Scene scene = new Scene(gridPane, 700, 500);
+	        scene.getStylesheets().add(cssFile);
 	        stage.setScene(scene);
+	        stage.show();
 	    }
 
 	    public void setController(Controller controller) {
@@ -39,25 +58,42 @@ import model.Bibliotecario;
 	        Stage stage = new Stage();
 	        stage.setTitle("Tela Principal - Bem-vindo " + usuario.getEmail());
 	        stage.show();
-	        VBox vbox = new VBox(10);
-
+	        GridPane gridPane = new GridPane();
+	        gridPane.setVgap(10);
+	        gridPane.setHgap(10);
+	        
+	        Label labelTexto=new Label("BIBLIOTECA");
+	        GridPane.setConstraints(labelTexto, 0, 0);
+	        labelTexto.setId("label-view-principal");
+	        
 	        Button btnEmprestimos = new Button("Empréstimos");
 	        btnEmprestimos.setOnAction(e -> controller.mostrarTelaEmprestimos());
-	        vbox.getChildren().add(btnEmprestimos);
+	        GridPane.setConstraints(btnEmprestimos, 0, 0);
+	        btnEmprestimos.setId("botao-Emprestimo");
+	        btnEmprestimos.getStyleClass().add("botao-view-principal");
 
 	        Button btnLivros = new Button("Livros");
 	        btnLivros.setOnAction(e -> controller.mostrarTelaLivros());
-	        vbox.getChildren().add(btnLivros);
+	        GridPane.setConstraints(btnLivros, 1, 0);
+	        btnLivros.getStyleClass().add("botao-view-principal");
+	        btnLivros.setId("botao-Livro");
 
 	        Button btnClientes = new Button("Clientes");
 	        btnClientes.setOnAction(e -> controller.mostrarTelaClientes());
-	        vbox.getChildren().add(btnClientes);
+	        GridPane.setConstraints(btnClientes, 0, 1);
+	        btnClientes.getStyleClass().add("botao-view-principal");
+	        btnClientes.setId("botao-Cliente");
 
 	        Button btnUsuarios = new Button("Usuários");
 	        btnUsuarios.setOnAction(e -> controller.mostrarTelaUsuarios());
-	        vbox.getChildren().add(btnUsuarios);
-
-	        Scene scene = new Scene(vbox, 700, 500);
+	        GridPane.setConstraints(btnUsuarios, 1, 1);
+	        btnUsuarios.getStyleClass().add("botao-view-principal");
+	        btnUsuarios.setId("botao-Usuario");
+	        
+	        gridPane.getChildren().addAll(labelTexto,btnEmprestimos,btnLivros,btnClientes,btnUsuarios);
+	        Scene scene = new Scene(gridPane, 700, 500);
+	        scene.getStylesheets().add(cssFile);
 	        stage.setScene(scene);
+	        stage.show();
 	    }
 	}
