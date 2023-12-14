@@ -17,6 +17,10 @@ public class ViewLogin {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
         gridPane.setHgap(10);
+        
+        Label labelTexto=new Label("BIBLIOTECA");
+        GridPane.setConstraints(labelTexto, 1,1);
+        labelTexto.getStyleClass().add("label-Texto-login");
 
         Label labelEmail = new Label("Email:");
         GridPane.setConstraints(labelEmail, 12, 14);
@@ -38,17 +42,18 @@ public class ViewLogin {
             if (!campoSenha.getText().isEmpty()) {
                 try {
                     int senha = Integer.parseInt(campoSenha.getText());
-                    controller.realizarAutenticacao(email, senha);
+                    controller.realizarAutenticacao(email, senha,stage);
                 } catch (NumberFormatException ex) {
                     System.out.println("Erro: A senha deve ser um número inteiro.");
                 }
             } else {
-                System.out.println("Erro: O campo de senha não pode estar vazio.");
+                Label labelErro=new Label("O campo de senha não pode esta vazio");
+                GridPane.setConstraints(labelErro, 0, 0);
             }
         });
-        GridPane.setConstraints(botaoLogin, 13, 17);
+        GridPane.setConstraints(botaoLogin, 0, 1);
 
-        gridPane.getChildren().addAll(labelEmail, labelSenha, campoEmail, campoSenha, botaoLogin);
+        gridPane.getChildren().addAll(labelTexto,labelEmail, labelSenha, campoEmail, campoSenha, botaoLogin);
 
         Scene scene = new Scene(gridPane, 700, 500);
         scene.getStylesheets().add(cssFile);
@@ -66,40 +71,54 @@ public class ViewLogin {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
         gridPane.setHgap(10);
-
-        // Adicionar labels, campos de texto e botão ao gridPane
+        
+        Label labelTexto=new Label("BIBLIOTECA");
+        GridPane.setConstraints(labelTexto, 0,1);
+        labelTexto.getStyleClass().add("label-Texto-login");;
+        
         Label labelEmail = new Label("Email:");
         GridPane.setConstraints(labelEmail, 11, 14);
+        labelEmail.getStyleClass().add("label-form-login");
 
         Label labelSenha = new Label("Senha:");
         GridPane.setConstraints(labelSenha, 11, 15);
+        labelSenha.getStyleClass().add("label-form-login");
 
         TextField campoEmail = new TextField();
         GridPane.setConstraints(campoEmail, 12, 14);
+        campoEmail.getStyleClass().add("campo-form-login");
 
         PasswordField campoSenha = new PasswordField();
         GridPane.setConstraints(campoSenha, 12, 15);
-
+        campoSenha.getStyleClass().add("campo-form-login");
+        
         Button botaoLogin = new Button("Login");
-
-        botaoLogin.getStyleClass().add("botao");
+        botaoLogin.getStyleClass().add("botao-login");
         botaoLogin.setOnAction(e -> {
             String email = campoEmail.getText();
 
             if (!campoSenha.getText().isEmpty()) {
                 try {
                     int senha = Integer.parseInt(campoSenha.getText());
-                    controller.realizarAutenticacao(email, senha);
+                    controller.realizarAutenticacao(email, senha, stage);
                 } catch (NumberFormatException ex) {
-                    System.out.println("Erro: A senha deve ser um número inteiro.");
+                	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+                	Label labelInvalid=new Label("A senha deve ser um número inteiro.");
+                    labelInvalid.getStyleClass().add("label-erro-view");
+                    GridPane.setConstraints(labelInvalid, 0, 0);
+                    gridPane.getChildren().add(labelInvalid);
                 }
             } else {
-                System.out.println("Erro: O campo de senha não pode estar vazio.");
+            	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+            	Label labelVazia=new Label("O campo de senha não pode esta vazio");
+                labelVazia.getStyleClass().add("label-erro-view");
+                GridPane.setConstraints(labelVazia, 0, 0);
+                gridPane.getChildren().add(labelVazia);
             }
         });
-        GridPane.setConstraints(botaoLogin, 13, 17);
+        GridPane.setConstraints(botaoLogin, 0,1);
 
-        gridPane.getChildren().addAll(labelEmail, labelSenha, campoEmail, campoSenha, botaoLogin);
+        gridPane.getChildren().addAll(labelTexto,labelEmail, labelSenha, campoEmail, campoSenha, botaoLogin);
 
         // Criar a Scene e associá-la ao Stage
         Scene scene = new Scene(gridPane, 700, 500);
@@ -108,6 +127,7 @@ public class ViewLogin {
         stage.setScene(scene);
 
         // Exibir o Stage
-        stage.show();
+        stage.show();    
+        
     }
 }

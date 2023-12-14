@@ -1,7 +1,59 @@
-.botao {
- -fx-font-size: 10px;
- -fx-background-color: red;
+.botao-login{
+    -fx-translate-x: 300px;
+    -fx-translate-y: 270px;    
+    -fx-pref-height: 25px;
+    }
+.button{
+	-fx-font-size: 15px;
+ 	-fx-background-color: white;
+ 	-fx-border-color: grey;
     -fx-font-family: "Arial";
     -fx-text-fill: #3498db;
-    -fx-font-weight: bold;
+    -fx-font-weight: bold;	
+    -fx-border-radius:10px;
+}
+.campo-form-login{
+	-fx-translate-x: -170px;
+    -fx-translate-y: 10px;
+	-fx-pref-height: 25px;
+	-fx-pref-width: 200px;
+}
+.label-form-login{
+	-fx-font-size: 20px;
+	-fx-translate-x: -160px;
+    -fx-translate-y: 10px;
+}
+.label-Texto-login{
+	-fx-font-size: 40px;
+	-fx-translate-x: 200px;
+    -fx-translate-y: 100px;
+}
+.label-erro-view{
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-x: 200px;
+	-fx-translate-y: 350px;
+}
+#label-view-principal{
+	-fx-font-size: 40px;
+	-fx-translate-x: 250px;
+    -fx-translate-y: 100px;
+}
+.botao-view-principal{
+	-fx-translate-x: 130px;
+    -fx-translate-y: 250px;
+	-fx-pref-width: 200px;
+	-fx-pref-height: 50px;
+}
+#botao-Emprestimo {
+	
+}
+#botao-Livro{
+    /* Estilos para o botão de Livros */
+}
+#botao-Cliente {
+    /* Estilos para o botão de Clientes */
+}
+#botao-Usuario {
+    /* Estilos para o botão de Usuários */
 }
