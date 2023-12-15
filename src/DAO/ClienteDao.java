@@ -4,124 +4,97 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.ArrayList;
 import model.Cliente;
 
 public class ClienteDao {
 	
-	@SuppressWarnings("finally")
-	public List<Cliente> getAll(){
+	public List<Cliente> getAll()throws SQLException{
 		String sql="select * from Cliente";
 		List<Cliente> clientes=new ArrayList<>();
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		ResultSet rset=null;
-		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			rset=pstm.executeQuery();
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rset=pstm.executeQuery();
 			
-			while(rset.next()) {
-				String cpf=rset.getString("cpf");
-				String nome=rset.getString("nome");
-				String telefone=rset.getString("telefone");
-				Cliente cliente=new Cliente(nome,cpf,telefone);
-				cliente.setId(rset.getInt("id"));
-				clientes.add(cliente);
-			}
-			conn.close();
-			pstm.close();
-			rset.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}finally{
-			return clientes;
+		while(rset.next()) {
+			String cpf=rset.getString("cpf");
+			String nome=rset.getString("nome");
+			String telefone=rset.getString("telefone");
+			Cliente cliente=new Cliente(nome,cpf,telefone);
+			cliente.setId(rset.getInt("id"));
+			clientes.add(cliente);
 		}
+		conn.close();
+		pstm.close();
+		rset.close();	
+		return clientes;
 	}
 	
-	public Cliente getOneById(int id) {
+	public Cliente getOneById(int id) throws SQLException{
 		String sql="select * from Cliente where id=?";
 		Connection conn=null;
 		PreparedStatement pstm=null;
 		ResultSet rset=null;
-
-		try {		
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setInt(1, id);
-			rset=pstm.executeQuery();
-			if(rset.next()) {
-				String nome=rset.getString("nome");
-				String telefone=rset.getString("telefone");
-				String cpf=rset.getString("cpf");
-				Cliente cliente=new Cliente(nome,telefone,cpf);
-				cliente.setId(rset.getInt("id"));
-				return cliente;
-			}
-			conn.close();
-			pstm.close();
-			rset.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
+		
+		conn=ConexaoDAO.conectarBD();
+		pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, id);
+		rset=pstm.executeQuery();
+		
+		if(rset.next()) {
+			String nome=rset.getString("nome");
+			String telefone=rset.getString("telefone");
+			String cpf=rset.getString("cpf");
+			Cliente cliente=new Cliente(nome,telefone,cpf);
+			cliente.setId(rset.getInt("id"));
+			return cliente;
 		}
+		conn.close();
+		pstm.close();
+		rset.close();
 		return null;
 	}
 	
-	public void create(Cliente cliente) {
+	public void create(Cliente cliente) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="insert into Cliente(cpf,nome,telefone) values(?,?,?)";
 		Connection conn=null;
 		PreparedStatement pstm=null;
-		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setString(1, cliente.getCpf());
-			pstm.setString(2, cliente.getNome());
-			pstm.setString(3, cliente.getTelefone());
-			pstm.execute();
-			conn.close();
-			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+
+		conn=ConexaoDAO.conectarBD();
+		pstm=conn.prepareStatement(sql);
+		pstm.setString(1, cliente.getCpf());
+		pstm.setString(2, cliente.getNome());
+		pstm.setString(3, cliente.getTelefone());
+		pstm.execute();
+		conn.close();
+		pstm.close();
 	}
 	
-	public void delete(int id) {
+	public void delete(int id) throws SQLException{
 		String sql="delete from Cliente where id = ?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
 		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setInt(1, id);
-			pstm.execute();
-			conn.close();
-			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+		pstm.setInt(1, id);
+		pstm.execute();
+		conn.close();
+		pstm.close();
 	}
 	
-	public void update(Cliente cliente) {
+	public void update(Cliente cliente) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="update Cliente set cpf=?,nome=?,telefone=? where id=?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
 		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setString(1, cliente.getCpf());
-			pstm.setString(2, cliente.getNome());
-			pstm.setString(3, cliente.getTelefone());
-			pstm.setInt(4, cliente.getId());
-			pstm.executeUpdate();
-			conn.close();
-			pstm.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
+		Connection 	conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		
+		pstm.setString(1, cliente.getCpf());
+		pstm.setString(2, cliente.getNome());
+		pstm.setString(3, cliente.getTelefone());
+		pstm.setInt(4, cliente.getId());
+		pstm.executeUpdate();
+		conn.close();
+		pstm.close();
 	}
 }

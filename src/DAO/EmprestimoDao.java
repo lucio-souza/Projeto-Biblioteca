@@ -3,122 +3,131 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 import model.Emprestimo;
-import model.Livro;
 
 import java.time.LocalDate;
 public class EmprestimoDao {
 	
-	public List<Emprestimo> getAll(){
+	public List<Emprestimo> getAll()throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="select * from Emprestimo";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		ResultSet rset=null;
+
 		List<Emprestimo> emprestimos=new ArrayList<>();
-		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			rset=pstm.executeQuery();
+
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		ResultSet rset=pstm.executeQuery();
 			
-			while(rset.next()) {
-				int cliente=rset.getInt("idcliente");
-				int livro=rset.getInt("idlivro");
-				java.sql.Date dtreservaSql=rset.getDate("dtreserva");
-				java.sql.Date dtentregaSql=rset.getDate("dtentrega");
-				LocalDate dtreserva = (dtreservaSql != null) ? dtreservaSql.toLocalDate() : null;
-				LocalDate dtentrega = (dtentregaSql != null) ? dtentregaSql.toLocalDate() : null;
-				Emprestimo emprestimo=new Emprestimo(cliente,livro,dtreserva);
-				emprestimo.setId(rset.getInt("id"));
-				emprestimo.setDtEntrega(dtentrega);
-				emprestimos.add(emprestimo);
-			}
-			conn.close();
-			pstm.close();
-			rset.close();
-		}catch(SQLException ex) {
-			ex.printStackTrace();
+		while(rset.next()) {
+			int cliente=rset.getInt("idcliente");
+			int livro=rset.getInt("idlivro");
+			java.sql.Date dtreserva=rset.getDate("dtreserva");
+			java.sql.Date dtentregaSql=rset.getDate("dtentrega");
+			String status=rset.getString("status");
+			LocalDate dtentrega = (dtentregaSql != null) ? dtentregaSql.toLocalDate() : null;
+			Emprestimo emprestimo=new Emprestimo(cliente,livro,dtreserva.toLocalDate());
+			emprestimo.setId(rset.getInt("id"));
+			emprestimo.setStatus(status);
+			emprestimo.setDtEntrega(dtentrega);
+			emprestimos.add(emprestimo);
 		}
+		conn.close();
+		pstm.close();
+		rset.close();
+
 		return emprestimos;
 	}
 
-	public Emprestimo getOneById(int id) {
+	public Emprestimo getOneById(int id) throws SQLException{
 		String sql="select * from Emprestimo where id=?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		ResultSet rset=null;
-		
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setInt(1, id);
-			rset=pstm.executeQuery();
+
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, id);
+		ResultSet rset=pstm.executeQuery();
 			
-			if(rset.next()) {
-				int cliente=rset.getInt("idcliente");
-				int livro=rset.getInt("idlivro");
-				java.sql.Date dtreserva=rset.getDate("dtreserva");
-				java.sql.Date dtentrega=rset.getDate("dtentrega");
-				Emprestimo emprestimo=new Emprestimo(cliente,livro,dtreserva.toLocalDate());
-				emprestimo.setId(rset.getInt("id"));
-				emprestimo.setDtEntrega(dtentrega.toLocalDate());
-				return emprestimo;
-			}
-			conn.close();
-			pstm.close();
-			rset.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(rset.next()) {
+			int cliente=rset.getInt("idcliente");
+			int livro=rset.getInt("idlivro");
+			java.sql.Date dtreserva=rset.getDate("dtreserva");
+			java.sql.Date dtentregaSql=rset.getDate("dtentrega");
+			String status=rset.getString("status");
+			LocalDate dtentrega = (dtentregaSql != null) ? dtentregaSql.toLocalDate() : null;
+			Emprestimo emprestimo=new Emprestimo(cliente,livro,dtreserva.toLocalDate());
+			emprestimo.setId(rset.getInt("id"));
+			emprestimo.setStatus(status);
+			emprestimo.setDtEntrega(dtentrega);
+			return emprestimo;
 		}
+		conn.close();
+		pstm.close();
+		rset.close();
 		return null;
 	}
 	
-	public void Emprestar(Emprestimo emprestimo) {
+    public boolean verificarEmprestimoPendente(int idCliente) throws SQLException {
+        String sql = "SELECT id FROM Emprestimo WHERE idCliente = ? AND (status = 'Em andamento' OR status = 'Atrasado')";
+
+        Connection conn = ConexaoDAO.conectarBD();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, idCliente);
+        ResultSet rs = pstmt.executeQuery();
+        return rs.next();
+    }
+	
+	public void emprestar(Emprestimo emprestimo) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="insert into Emprestimo(idcliente,idlivro,dtreserva,dtentrega)values(?,?,?,?)";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		try {
-			if(LivroDao.getOneByID(emprestimo.getIdLivro()).getStatus().equals("Disponivel") || LivroDao.getOneByID(emprestimo.getIdLivro()).getStatus().equals("disponivel")) {
-				try {
-					conn=ConexaoDAO.conectarBD();
-					pstm=conn.prepareStatement(sql);
-					pstm.setInt(1, emprestimo.getIdCliente());
-					pstm.setInt(2, emprestimo.getIdLivro());
-					pstm.setObject(3, emprestimo.getDtReserva());
-					pstm.setObject(4, emprestimo.getDtentrega());
-					pstm.executeUpdate();
-					String status="Indisponivel";
-					LivroDao livrodao=new LivroDao();
-					livrodao.atualizarStatus(emprestimo.getIdLivro(),status);
-					conn.close();
-					pstm.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+		
+		if(!verificarEmprestimoPendente(emprestimo.getIdCliente())) {
+			if(LivroDao.getOneByID(emprestimo.getIdLivro()).getStatus().equals("disponivel")){
+				Connection conn=ConexaoDAO.conectarBD();
+				PreparedStatement pstm=conn.prepareStatement(sql);
+				
+				pstm.setInt(1, emprestimo.getIdCliente());
+				pstm.setInt(2, emprestimo.getIdLivro());
+				pstm.setObject(3, emprestimo.getDtReserva());
+				pstm.setObject(4, emprestimo.getDtentrega());
+				pstm.executeUpdate();
+				
+				String status="Indisponivel";
+				LivroDao livrodao=new LivroDao();
+				livrodao.atualizarStatus(emprestimo.getIdLivro(),status);
+				conn.close();
+				pstm.close();
 			}else {
 				System.out.println("livro indisponivel");
 			}
-		}catch(NullPointerException ex) {
-			ex.printStackTrace();
+		}else {
+			System.out.println("o cliente tem pendências");
 		}
 	}
-	
-	public void delete(int id) {
+	public void devolverLivro(int id) throws SQLException{
+		String sql="update Emprestimo set status=? where id=?";
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+			
+		String status="Devolvido";
+		pstm.setString(1,status);
+		pstm.setInt(2, id);
+		pstm.executeUpdate();
+			
+		String statusLivro="Disponivel";
+		LivroDao livroDao=new LivroDao();
+		int idLivro=getOneById(id).getId();
+		livroDao.atualizarStatus(idLivro, statusLivro);
+	}
+		
+	public void delete(int id) throws SQLException {
 		String sql="delete from Emprestimo where id=?";
-		Connection conn=null;
-		PreparedStatement pstm=null;
-		try {
-			conn=ConexaoDAO.conectarBD();
-			pstm=conn.prepareStatement(sql);
-			pstm.setInt(1, id);
-			pstm.execute();
-			conn.close();
-			pstm.close();
-		} catch (SQLException e) {
-			// TODO: handle exception
-		}
+
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		pstm.setInt(1, id);
+		pstm.execute();
+		conn.close();
+		pstm.close();
 	}
 }
