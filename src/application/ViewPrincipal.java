@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.Bibliotecario;
 	public class ViewPrincipal {
 	    private Controller controller;
 		String cssFile = getClass().getResource("style.css").toExternalForm();
@@ -20,25 +19,33 @@ import model.Bibliotecario;
 	        labelTexto.setId("label-view-principal");
 
 	        Button btnEmprestimos = new Button("Empréstimos");
-	        btnEmprestimos.setOnAction(e -> controller.mostrarTelaEmprestimos());
+
+	        btnEmprestimos.setOnAction( e -> controller.mostrarTelaEmprestimos(stage));
+
 	        GridPane.setConstraints(btnEmprestimos, 0, 0);
 	        btnEmprestimos.setId("botao-Emprestimo");
 	        btnEmprestimos.getStyleClass().add("botao-view-principal");
 
 	        Button btnLivros = new Button("Livros");
-	        btnLivros.setOnAction(e -> controller.mostrarTelaLivros());
+
+	        btnLivros.setOnAction(e -> controller.mostraTelaLivros(stage));
+
 	        GridPane.setConstraints(btnLivros, 1, 0);
 	        btnLivros.getStyleClass().add("botao-view-principal");
 	        btnLivros.setId("botao-Livro");
 
 	        Button btnClientes = new Button("Clientes");
-	        btnClientes.setOnAction(e -> controller.mostrarTelaClientes());
+
+	        btnClientes.setOnAction(e -> controller.mostrarTelaClientes(stage));
+
 	        GridPane.setConstraints(btnClientes, 0, 1);
 	        btnClientes.getStyleClass().add("botao-view-principal");
 	        btnClientes.setId("botao-Cliente");
 
 	        Button btnUsuarios = new Button("Usuários");
-	        btnUsuarios.setOnAction(e -> controller.mostrarTelaUsuarios());
+
+	        btnUsuarios.setOnAction(e -> controller.mostrarTelaUsuarios(stage));
+
 	        GridPane.setConstraints(btnUsuarios, 1, 1);
 	        btnUsuarios.getStyleClass().add("botao-view-principal");
 	        btnUsuarios.setId("botao-Usuario");
@@ -54,9 +61,8 @@ import model.Bibliotecario;
 	        this.controller = controller;
 	    }
 
-	    public void mostrar(Bibliotecario usuario) {
+	    public void mostrar() {
 	        Stage stage = new Stage();
-	        stage.setTitle("Tela Principal - Bem-vindo " + usuario.getEmail());
 	        stage.show();
 	        GridPane gridPane = new GridPane();
 	        gridPane.setVgap(10);
@@ -67,25 +73,30 @@ import model.Bibliotecario;
 	        labelTexto.setId("label-view-principal");
 	        
 	        Button btnEmprestimos = new Button("Empréstimos");
-	        btnEmprestimos.setOnAction(e -> controller.mostrarTelaEmprestimos());
+
+	        btnEmprestimos.setOnAction(e -> controller.mostrarTelaEmprestimos(stage));
 	        GridPane.setConstraints(btnEmprestimos, 0, 0);
-	        btnEmprestimos.setId("botao-Emprestimo");
 	        btnEmprestimos.getStyleClass().add("botao-view-principal");
 
 	        Button btnLivros = new Button("Livros");
-	        btnLivros.setOnAction(e -> controller.mostrarTelaLivros());
+	        btnLivros.setOnAction(e -> controller.mostraTelaLivros(stage));
+
 	        GridPane.setConstraints(btnLivros, 1, 0);
 	        btnLivros.getStyleClass().add("botao-view-principal");
 	        btnLivros.setId("botao-Livro");
 
 	        Button btnClientes = new Button("Clientes");
-	        btnClientes.setOnAction(e -> controller.mostrarTelaClientes());
+
+	        btnClientes.setOnAction(e -> controller.mostrarTelaClientes(stage));
+
 	        GridPane.setConstraints(btnClientes, 0, 1);
 	        btnClientes.getStyleClass().add("botao-view-principal");
 	        btnClientes.setId("botao-Cliente");
 
 	        Button btnUsuarios = new Button("Usuários");
-	        btnUsuarios.setOnAction(e -> controller.mostrarTelaUsuarios());
+
+	        btnUsuarios.setOnAction(e -> controller.mostrarTelaUsuarios(stage));
+
 	        GridPane.setConstraints(btnUsuarios, 1, 1);
 	        btnUsuarios.getStyleClass().add("botao-view-principal");
 	        btnUsuarios.setId("botao-Usuario");

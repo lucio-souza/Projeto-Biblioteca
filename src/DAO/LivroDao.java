@@ -25,8 +25,9 @@ public class LivroDao {
 			String genero=rset.getString("genero");
 			String status=rset.getString("status");
 			String autor=rset.getString("autor");			
-			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor);
 			livro.setId(rset.getInt("id"));
+			livro.setStatus(status);
 			livros.add(livro);
 		}
 		conn.close();
@@ -49,8 +50,35 @@ public class LivroDao {
 			String genero=rset.getString("genero");
 			String status=rset.getString("status");
 			String autor=rset.getString("autor");			
-			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor);
 			livro.setId(rset.getInt("id"));
+			livro.setStatus(status);
+			conn.close();
+			pstm.close();
+			rset.close();
+			
+			return livro;
+		}
+		return null;
+	}
+	
+	public static Livro getOneByTitulo(String titulo)throws SQLException{
+		String sql="select * from Livro where titulo = ?";
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		
+		pstm.setString(1, titulo);
+		ResultSet rset=pstm.executeQuery();
+		
+		if(rset.next()) {
+			rset.getString("titulo");
+			java.sql.Date sqlDate=rset.getDate("dtpublicacao");
+			String genero=rset.getString("genero");
+			String status=rset.getString("status");
+			String autor=rset.getString("autor");			
+			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor);
+			livro.setId(rset.getInt("id"));
+			livro.setStatus(status);
 			conn.close();
 			pstm.close();
 			rset.close();

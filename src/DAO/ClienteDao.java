@@ -22,7 +22,7 @@ public class ClienteDao {
 			String cpf=rset.getString("cpf");
 			String nome=rset.getString("nome");
 			String telefone=rset.getString("telefone");
-			Cliente cliente=new Cliente(nome,cpf,telefone);
+			Cliente cliente=new Cliente(cpf,nome,telefone);
 			cliente.setId(rset.getInt("id"));
 			clientes.add(cliente);
 		}
@@ -47,7 +47,33 @@ public class ClienteDao {
 			String nome=rset.getString("nome");
 			String telefone=rset.getString("telefone");
 			String cpf=rset.getString("cpf");
-			Cliente cliente=new Cliente(nome,telefone,cpf);
+			Cliente cliente=new Cliente(cpf,nome,telefone);
+			cliente.setId(rset.getInt("id"));
+			return cliente;
+		}
+		conn.close();
+		pstm.close();
+		rset.close();
+		return null;
+	}
+	
+	public static Cliente getOneByCpf(String cpf) throws SQLException{
+		String sql="select * from Cliente where cpf=?";
+		Connection conn=null;
+		PreparedStatement pstm=null;
+		ResultSet rset=null;
+		
+		conn=ConexaoDAO.conectarBD();
+		pstm=conn.prepareStatement(sql);
+		pstm.setString(1, cpf);
+		rset=pstm.executeQuery();
+		
+		if(rset.next()) {
+			rset.getString("cpf");
+			String nome=rset.getString("nome");
+			String telefone=rset.getString("telefone");
+			
+			Cliente cliente=new Cliente(cpf,nome,telefone);
 			cliente.setId(rset.getInt("id"));
 			return cliente;
 		}

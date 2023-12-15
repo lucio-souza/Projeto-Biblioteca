@@ -10,13 +10,12 @@ public class Livro {
 	private String status;
 	private String autor;
 	
-	public Livro(String titulo, LocalDate dtPubli, String genero, String autor,String status) {
+	public Livro(String titulo, LocalDate dtPubli, String genero, String autor) {
 		super();
 		this.titulo = titulo;
 		this.dtPubli = dtPubli;
 		this.genero = genero;
 		this.autor = autor;
-		this.status=status;
 	}
 	
 	public int getId() {

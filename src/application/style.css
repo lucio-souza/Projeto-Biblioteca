@@ -45,15 +45,226 @@
 	-fx-pref-width: 200px;
 	-fx-pref-height: 50px;
 }
-#botao-Emprestimo {
-	
+
+#Titulo-Emprestimo{
+	-fx-font-size: 35px;
+	-fx-translate-x: 220px;
+    -fx-translate-y: 100px;
 }
-#botao-Livro{
-    /* Estilos para o botão de Livros */
+#botao-Emprestimo{
+	-fx-translate-x: 250px;
+    -fx-translate-y: 300px;    
+    -fx-pref-height: 30px;
 }
-#botao-Cliente {
-    /* Estilos para o botão de Clientes */
+.label-emprestimo{
+	-fx-font-size: 20px;
+	-fx-translate-x: -50px;
+    -fx-translate-y: 120px;
 }
-#botao-Usuario {
-    /* Estilos para o botão de Usuários */
+.campo-emprestimo{
+	-fx-translate-x: -50px;
+    -fx-translate-y: 120px;
+    -fx-pref-height: 25px;
+	-fx-pref-width: 200px;
 }
+.botao-voltar{
+	-fx-translate-y:-19px;
+}
+.erro-Emprestimo{
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-x: 250px;
+	-fx-translate-y: 370px;
+}
+#sucesso-emprestimo{
+	-fx-text-fill: green;
+}
+#botao-Mostrar-Emprestimos{
+	-fx-translate-x: 100px;
+	-fx-translate-y:-65px;
+}
+#Titulo-Clientes{
+	-fx-font-size: 35px;
+	-fx-translate-x: 280px;
+    -fx-translate-y: 100px;
+}
+.label-Cliente{
+	-fx-font-size: 20px;
+	-fx-translate-x: -50px;
+    -fx-translate-y: 85px;
+}
+#cliente-cpf{
+	-fx-translate-x: 0px;
+}
+#cliente-nome{
+	-fx-translate-x: -15px;
+}
+.campo-Cliente{
+	-fx-translate-x: -50px;
+    -fx-translate-y: 120px;
+    -fx-pref-height: 25px;
+	-fx-pref-width: 200px;
+}
+#criar-cliente{
+	-fx-translate-x: 300px;
+    -fx-translate-y: 330px;    
+    -fx-pref-height: 30px;
+}
+#cpf-Cliente{
+	-fx-translate-x: 200px;
+}
+.erro-Cliente{
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 400px;
+}
+.sucesso-Cliente{
+	-fx-text-fill: green;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 400px;
+}
+#botao-Mostrar-Clientes{
+	-fx-translate-x: 100px;
+	-fx-translate-y:-65px;
+}
+#deletar-Cliente{
+	-fx-translate-x: 340px;
+	-fx-translate-y:-19px;
+}
+.texto-Delete{
+	-fx-font-size: 40px;
+	-fx-translate-x: 130px;
+    -fx-translate-y: 50px;
+}
+.label-Delete{
+	-fx-font-size: 30px;
+	-fx-translate-x: 150px;
+    -fx-translate-y: 150px;
+}
+.campo-Delete{
+	-fx-font-size: 15px;
+	-fx-translate-x: 120px;
+    -fx-translate-y: 200px;
+}
+.botao-Delete{
+	-fx-translate-x: 300px;
+    -fx-translate-y: 150px;    
+    -fx-pref-height: 50px;
+}
+.erro-Delete{
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-x: 200px;
+	-fx-translate-y: 300px;
+}
+.voltar-Delete{
+	-fx-translate-y:-50px;
+}
+#sucesso-Delete{
+	-fx-text-fill: green;
+	-fx-font-size: 15px;
+	-fx-translate-x: 200px;
+	-fx-translate-y: 300px;
+}
+#Titulo-Livros{
+	-fx-font-size: 35px;
+	-fx-translate-x: 280px;
+    -fx-translate-y: 100px;
+}
+.label-Livros{
+	-fx-font-size: 20px;
+    -fx-translate-y: 85px;
+}
+.campo-Livros{
+	-fx-translate-x: -50px;
+    -fx-translate-y: 83px;
+    -fx-pref-height: 25px;
+	-fx-pref-width: 200px;
+}
+#criar-Livro{
+	-fx-translate-x: 300px;
+    -fx-translate-y: 330px;    
+    -fx-pref-height: 30px;
+}
+.erro-Livro{
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 400px;
+}
+.Sucesso-Livro{
+	-fx-text-fill: green;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 400px;
+}
+#botao-Mostrar-Livros{
+	-fx-translate-x: 100px;
+	-fx-translate-y:-65px;
+}
+#deletar-Livro{
+	-fx-translate-x: 340px;
+	-fx-translate-y:-19px;
+}
+#label-Titulo{
+	-fx-translate-x: 150px;
+}
+#label-Dt{
+	-fx-translate-x: -50px;
+}
+#label-Genero{
+	-fx-translate-x: 130px;
+}
+#label-Autor{
+	-fx-translate-x: 150px;
+}
+#Titulo-Usuarios{
+	-fx-font-size: 35px;
+	-fx-translate-x: 270px;
+	-fx-translate-y:50px;
+}
+.label-Usuario{
+	-fx-font-size: 15px;
+	-fx-translate-x: 80px;
+	-fx-translate-y:100px;
+}
+.campo-Usuario{
+	-fx-translate-x: -40px;
+	-fx-translate-y:100px;
+}
+#criar-Usuario{
+	-fx-translate-x: 300px;
+    -fx-translate-y: 220px;    
+    -fx-pref-height: 30px;
+}
+.sucesso-Usuario{
+	-fx-text-fill: green;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 300px;
+}
+.erro-Usuario{	
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 300px;
+}
+#Mostrar-Usuario{
+	-fx-translate-x: -80px;
+	-fx-translate-y:0px;
+}
+#deletar-Usuario{
+	-fx-translate-x: 120px;
+	-fx-translate-y:0px;
+}
+.voltar-Usuario{
+	-fx-translate-x: 0px;
+	-fx-translate-y: -50px;
+}
+#delete-email{
+	-fx-translate-x:130px
+}
+#delete-Titulo{
+	-fx-translate-x: 130px;
