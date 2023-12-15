@@ -1,6 +1,7 @@
 package application;
 import java.sql.SQLException;
-import DAO.EmprestimoDao;
+import java.time.LocalDate;
+import DAO.LivroDao;
 import controller.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.Livro;
 	
 public class ViewLivros {
 		private Controller controller;
@@ -18,77 +20,107 @@ public class ViewLivros {
 	        gridPane.setVgap(10);
 	        gridPane.setHgap(10);
 	        
-	        Label labelTexto=new Label("Emprestimos");
+	        Label labelTexto=new Label("Livros");
 	    	GridPane.setConstraints(labelTexto, 0,1);
-	    	labelTexto.setId("Titulo-Emprestimo");
-
-	    	Label labelCpf = new Label("CPF:");
-	    	GridPane.setConstraints(labelCpf, 1, 4);
-	    	labelCpf.getStyleClass().add("label-emprestimo");
+	    	labelTexto.setId("Titulo-Livros");
 
 	    	Label labelTitulo = new Label("titulo:");
-	    	GridPane.setConstraints(labelTitulo, 1, 5);
-	    	labelTitulo.getStyleClass().add("label-emprestimo");
-
-	    	TextField campoCpf = new TextField();
-	    	GridPane.setConstraints(campoCpf, 2, 4);
-	    	campoCpf.getStyleClass().add("campo-emprestimo");
-
+	    	GridPane.setConstraints(labelTitulo, 1, 3);
+	    	labelTitulo.getStyleClass().add("label-Livros");
+	    	labelTitulo.setId("label-Titulo");
+	    	
+	    	Label labelDt= new Label("Publicacao(yyyy-MM-dd):");
+	    	GridPane.setConstraints(labelDt, 1, 4);
+	    	labelDt.getStyleClass().add("label-Livros");
+	    	labelDt.setId("label-Dt");
+	    	
+	    	Label labelGenero= new Label("Genero:");
+	    	GridPane.setConstraints(labelGenero, 1, 5);
+	    	labelGenero.getStyleClass().add("label-Livros");
+	    	labelGenero.setId("label-Genero");
+	    	
+	    	Label labelAutor= new Label("Autor:");
+	    	GridPane.setConstraints(labelAutor, 1, 6);
+	    	labelAutor.getStyleClass().add("label-Livros");
+	    	labelAutor.setId("label-Autor");
+	    	
 	    	TextField campoTitulo = new TextField();
-	    	GridPane.setConstraints(campoTitulo, 2, 5);
-	    	campoTitulo.getStyleClass().add("campo-emprestimo");
+	    	GridPane.setConstraints(campoTitulo, 2, 3);
+	    	campoTitulo.getStyleClass().add("campo-Livros");
+	    	
+	    	TextField campoDt = new TextField();
+	    	GridPane.setConstraints(campoDt, 2, 4);
+	    	campoDt.getStyleClass().add("campo-Livros");
+	    	
+	    	TextField campoGenero = new TextField();
+	    	GridPane.setConstraints(campoGenero, 2, 5);
+	    	campoGenero.getStyleClass().add("campo-Livros");
+	    	
+	    	TextField campoAutor = new TextField();
+	    	GridPane.setConstraints(campoAutor, 2, 6);
+	    	campoAutor.getStyleClass().add("campo-Livros");
 
-	    	Button botaoEmprestar= new Button("Fazer Emprestimos");
-	    	botaoEmprestar.setId("botao-Emprestimo");
-	        botaoEmprestar.setOnAction(e -> {
-	            if(!campoCpf.getText().isEmpty() && !campoTitulo.getText().isEmpty()) {
-	            	    String cpf = campoCpf.getText();
-	            	    String Titulo=campoTitulo.getText();
-	            	    boolean verificador=controller.FazerEmprestimo(cpf, Titulo);
-	            	    if(verificador==true) {
-	            	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                    	Label labelInvalid=new Label("Emprestimo realizado com sucesso");
-	                        labelInvalid.getStyleClass().add("erro-Emprestimo");
-	                        labelInvalid.setId("sucesso-emprestimo");
-	                        GridPane.setConstraints(labelInvalid, 0, 0);
-	                        gridPane.getChildren().add(labelInvalid);
-	            	    }else {
-	            	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                    	Label labelInvalid=new Label("Emprestimo negado");
-	                        labelInvalid.getStyleClass().add("erro-Emprestimo");
-	                        GridPane.setConstraints(labelInvalid, 0, 0);
-	                        gridPane.getChildren().add(labelInvalid);
-	            	    }
-	            }else {
-	            	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	            	Label labelInvalid=new Label("Erro:campos em branco");
-	                labelInvalid.getStyleClass().add("erro-Emprestimo");
-	                GridPane.setConstraints(labelInvalid, 0, 0);
-	                gridPane.getChildren().add(labelInvalid);
-	            }
+	    	Button botaoCriar= new Button("Criar Livro");
+	    	botaoCriar.setId("criar-Livro");
+	    	botaoCriar.setOnAction(e -> {
+	    		if(!campoTitulo.getText().isEmpty() && !campoDt.getText().isEmpty() && !campoAutor.getText().isEmpty() && !campoGenero.getText().isEmpty()) {
+	        	    String autor = campoAutor.getText();
+	        	    String Titulo=campoTitulo.getText();
+	        	    String genero=campoGenero.getText();
+	        	    String DtString=campoDt.getText();
+	        	    LocalDate Dt=LocalDate.parse(DtString);
+	        	    boolean verificador=controller.CriarLivro(Titulo, autor, genero, Dt);
+	        	    if(verificador==true) {
+	        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+	                	Label labelInvalid=new Label("Livro criado com sucesso");
+	                    labelInvalid.getStyleClass().add("Sucesso-Livro");
+	                    GridPane.setConstraints(labelInvalid, 0, 0);
+	                    gridPane.getChildren().add(labelInvalid);
+	        	    }else {
+	        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+	                	Label labelInvalid=new Label("Erro ao criar Livro");
+	                    labelInvalid.getStyleClass().add("erro-Livro");
+	                    GridPane.setConstraints(labelInvalid, 0, 0);
+	                    gridPane.getChildren().add(labelInvalid);
+	        	    }
+	        }else {
+	        	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+	        	Label labelInvalid=new Label("Erro:campos em branco");
+	            labelInvalid.getStyleClass().add("erro-Livro");
+	            GridPane.setConstraints(labelInvalid, 0, 0);
+	            gridPane.getChildren().add(labelInvalid);
+	        }
 
-	        });
-	        GridPane.setConstraints(botaoEmprestar, 0, 1);
+	    	});
+	    	GridPane.setConstraints(botaoCriar, 0, 1);
 	        
 	        Button btnVoltar = new Button("Voltar");
 	        btnVoltar.getStyleClass().add("botao-voltar");
 	        btnVoltar.setOnAction(e -> controller.VoltarTela());
 	        GridPane.setConstraints(btnVoltar, 0, 1);
 	        
-	        Button btnAll= new Button("Mostrar Emprestimos");
-	    	btnAll.setId("botao-Mostrar-Emprestimos");
+	        Button btnAll= new Button("Mostrar Livros");
+	    	btnAll.setId("botao-Mostrar-Livros");
 	        btnAll.setOnAction(e -> {
-	        	EmprestimoDao emprestimos=new EmprestimoDao();
 	        	try {
-					System.out.println(emprestimos.getAll().toString());
+	        		LivroDao livro=new LivroDao();
+	        		for(Livro livros:livro.getAll()) {
+	        			System.out.println(livros.toString());
+	        		}
 	        	}catch (SQLException e1) {
 					// TODO Bloco catch gerado automaticamente
 					e1.printStackTrace();
 				}
 	        });
+	        
 	        GridPane.setConstraints(btnAll, 0, 2);
+	        
+	        Button btnDelete = new Button("Delete");
+	        btnDelete.setId("deletar-Livro");
+	        btnDelete.setOnAction(e -> controller.mostrarTelaDeleteLivro(stage));
+	        GridPane.setConstraints(btnDelete, 0, 1);
 
-	        gridPane.getChildren().addAll(labelTexto,labelCpf, labelTitulo, campoCpf, campoTitulo, botaoEmprestar,btnVoltar,btnAll);
+	        gridPane.getChildren().addAll(labelTexto, labelTitulo,labelDt,labelGenero,labelAutor, campoTitulo,campoAutor,campoDt,campoGenero, botaoCriar,btnVoltar,btnAll,btnDelete);
 
 	        Scene scene = new Scene(gridPane, 700, 500);
 	        scene.getStylesheets().add(cssFile);
@@ -102,68 +134,93 @@ public class ViewLivros {
 	    	gridPane.setVgap(10);
 	    	gridPane.setHgap(10);
 
-	    	Label labelTexto=new Label("Emprestimos");
+	    	Label labelTexto=new Label("Livros");
 	    	GridPane.setConstraints(labelTexto, 0,1);
-	    	labelTexto.setId("Titulo-Emprestimo");
-
-	    	Label labelCpf = new Label("CPF:");
-	    	GridPane.setConstraints(labelCpf, 1, 4);
-	    	labelCpf.getStyleClass().add("label-emprestimo");
+	    	labelTexto.setId("Titulo-Livros");
 
 	    	Label labelTitulo = new Label("titulo:");
-	    	GridPane.setConstraints(labelTitulo, 1, 5);
-	    	labelTitulo.getStyleClass().add("label-emprestimo");
-
-	    	TextField campoCpf = new TextField();
-	    	GridPane.setConstraints(campoCpf, 2, 4);
-	    	campoCpf.getStyleClass().add("campo-emprestimo");
-
+	    	GridPane.setConstraints(labelTitulo, 1, 3);
+	    	labelTitulo.getStyleClass().add("label-Livros");
+	    	labelTitulo.setId("label-Titulo");
+	    	
+	    	Label labelDt= new Label("Publicacao(yyyy-MM-dd):");
+	    	GridPane.setConstraints(labelDt, 1, 4);
+	    	labelDt.getStyleClass().add("label-Livros");
+	    	labelDt.setId("label-Dt");
+	    	
+	    	Label labelGenero= new Label("Genero:");
+	    	GridPane.setConstraints(labelGenero, 1, 5);
+	    	labelGenero.getStyleClass().add("label-Livros");
+	    	labelGenero.setId("label-Genero");
+	    	
+	    	Label labelAutor= new Label("Autor:");
+	    	GridPane.setConstraints(labelAutor, 1, 6);
+	    	labelAutor.getStyleClass().add("label-Livros");
+	    	labelAutor.setId("label-Autor");
+	    	
 	    	TextField campoTitulo = new TextField();
-	    	GridPane.setConstraints(campoTitulo, 2, 5);
-	    	campoTitulo.getStyleClass().add("campo-emprestimo");
+	    	GridPane.setConstraints(campoTitulo, 2, 3);
+	    	campoTitulo.getStyleClass().add("campo-Livros");
+	    	
+	    	TextField campoDt = new TextField();
+	    	GridPane.setConstraints(campoDt, 2, 4);
+	    	campoDt.getStyleClass().add("campo-Livros");
+	    	
+	    	TextField campoGenero = new TextField();
+	    	GridPane.setConstraints(campoGenero, 2, 5);
+	    	campoGenero.getStyleClass().add("campo-Livros");
+	    	
+	    	TextField campoAutor = new TextField();
+	    	GridPane.setConstraints(campoAutor, 2, 6);
+	    	campoAutor.getStyleClass().add("campo-Livros");
 
-	    	Button botaoEmprestar= new Button("Fazer Emprestimos");
-	    	botaoEmprestar.setId("botao-Emprestimo");
-	    	botaoEmprestar.setOnAction(e -> {
-	    		if(!campoCpf.getText().isEmpty() && !campoTitulo.getText().isEmpty()) {
-	        	    String cpf = campoCpf.getText();
+	    	Button botaoCriar= new Button("Criar Livro");
+	    	botaoCriar.setId("criar-Livro");
+	    	botaoCriar.setOnAction(e -> {
+	    		if(!campoTitulo.getText().isEmpty() && !campoDt.getText().isEmpty() && !campoAutor.getText().isEmpty() && !campoGenero.getText().isEmpty()) {
+	        	    String autor = campoAutor.getText();
 	        	    String Titulo=campoTitulo.getText();
-	        	    boolean verificador=controller.FazerEmprestimo(cpf, Titulo);
+	        	    String genero=campoGenero.getText();
+	        	    String DtString=campoDt.getText();
+	        	    LocalDate Dt=LocalDate.parse(DtString);
+	        	    boolean verificador=controller.CriarLivro(Titulo, autor, genero, Dt);
 	        	    if(verificador==true) {
 	        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                	Label labelInvalid=new Label("Emprestimo realizado com sucesso");
-	                    labelInvalid.getStyleClass().add("erro-Emprestimo");
+	                	Label labelInvalid=new Label("Livro criado com sucesso");
+	                    labelInvalid.getStyleClass().add("Sucesso-Livro");
 	                    GridPane.setConstraints(labelInvalid, 0, 0);
 	                    gridPane.getChildren().add(labelInvalid);
 	        	    }else {
 	        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                	Label labelInvalid=new Label("Emprestimo negado");
-	                    labelInvalid.getStyleClass().add("erro-Emprestimo");
+	                	Label labelInvalid=new Label("Erro ao criar Livro");
+	                    labelInvalid.getStyleClass().add("erro-Livro");
 	                    GridPane.setConstraints(labelInvalid, 0, 0);
 	                    gridPane.getChildren().add(labelInvalid);
 	        	    }
 	        }else {
 	        	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
 	        	Label labelInvalid=new Label("Erro:campos em branco");
-	            labelInvalid.getStyleClass().add("erro-Emprestimo");
+	            labelInvalid.getStyleClass().add("erro-Livro");
 	            GridPane.setConstraints(labelInvalid, 0, 0);
 	            gridPane.getChildren().add(labelInvalid);
 	        }
 
 	    	});
-	    	GridPane.setConstraints(botaoEmprestar, 0, 1);
+	    	GridPane.setConstraints(botaoCriar, 0, 1);
 	        
 	        Button btnVoltar = new Button("Voltar");
 	        btnVoltar.getStyleClass().add("botao-voltar");
 	        btnVoltar.setOnAction(e -> controller.VoltarTela());
 	        GridPane.setConstraints(btnVoltar, 0, 1);
 	        
-	        Button btnAll= new Button("Mostrar Emprestimos");
-	    	btnAll.setId("botao-Mostrar-Emprestimos");
+	        Button btnAll= new Button("Mostrar Livros");
+	    	btnAll.setId("botao-Mostrar-Livros");
 	        btnAll.setOnAction(e -> {
-	        	EmprestimoDao emprestimos=new EmprestimoDao();
 	        	try {
-					System.out.println(emprestimos.getAll().toString());
+	        		LivroDao livro=new LivroDao();
+	        		for(Livro livros:livro.getAll()) {
+	        			System.out.println(livros.toString());
+	        		}
 	        	}catch (SQLException e1) {
 					// TODO Bloco catch gerado automaticamente
 					e1.printStackTrace();
@@ -171,8 +228,13 @@ public class ViewLivros {
 	        });
 	        
 	        GridPane.setConstraints(btnAll, 0, 2);
+	        
+	        Button btnDelete = new Button("Delete");
+	        btnDelete.setId("deletar-Livro");
+	        btnDelete.setOnAction(e -> controller.mostrarTelaDeleteLivro(stage));
+	        GridPane.setConstraints(btnDelete, 0, 1);
 
-	        gridPane.getChildren().addAll(labelTexto,labelCpf, labelTitulo, campoCpf, campoTitulo, botaoEmprestar,btnVoltar,btnAll);
+	        gridPane.getChildren().addAll(labelTexto, labelTitulo,labelDt,labelGenero,labelAutor, campoTitulo,campoAutor,campoDt,campoGenero, botaoCriar,btnVoltar,btnAll,btnDelete);
 
 	        Scene scene = new Scene(gridPane, 700, 500);
 	        scene.getStylesheets().add(cssFile);

@@ -167,3 +167,98 @@
 	-fx-translate-x: 200px;
 	-fx-translate-y: 300px;
 }
+#Titulo-Livros{
+	-fx-font-size: 35px;
+	-fx-translate-x: 280px;
+    -fx-translate-y: 100px;
+}
+.label-Livros{
+	-fx-font-size: 20px;
+    -fx-translate-y: 85px;
+}
+.campo-Livros{
+	-fx-translate-x: -50px;
+    -fx-translate-y: 83px;
+    -fx-pref-height: 25px;
+	-fx-pref-width: 200px;
+}
+#criar-Livro{
+	-fx-translate-x: 300px;
+    -fx-translate-y: 330px;    
+    -fx-pref-height: 30px;
+}
+.erro-Livro{
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 400px;
+}
+.Sucesso-Livro{
+	-fx-text-fill: green;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 400px;
+}
+#botao-Mostrar-Livros{
+	-fx-translate-x: 100px;
+	-fx-translate-y:-65px;
+}
+#deletar-Livro{
+	-fx-translate-x: 340px;
+	-fx-translate-y:-19px;
+}
+#label-Titulo{
+	-fx-translate-x: 150px;
+}
+#label-Dt{
+	-fx-translate-x: -50px;
+}
+#label-Genero{
+	-fx-translate-x: 130px;
+}
+#label-Autor{
+	-fx-translate-x: 150px;
+}
+#Titulo-Usuarios{
+	-fx-font-size: 35px;
+	-fx-translate-x: 270px;
+	-fx-translate-y:50px;
+}
+.label-Usuario{
+	-fx-font-size: 15px;
+	-fx-translate-x: 80px;
+	-fx-translate-y:100px;
+}
+.campo-Usuario{
+	-fx-translate-x: -40px;
+	-fx-translate-y:100px;
+}
+#criar-Usuario{
+	-fx-translate-x: 300px;
+    -fx-translate-y: 220px;    
+    -fx-pref-height: 30px;
+}
+.sucesso-Usuario{
+	-fx-text-fill: green;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 300px;
+}
+.erro-Usuario{	
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-x: 270px;
+	-fx-translate-y: 300px;
+}
+#Mostrar-Usuario{
+	-fx-translate-x: -80px;
+	-fx-translate-y:0px;
+}
+#deletar-Usuario{
+	-fx-translate-x: 120px;
+	-fx-translate-y:0px;
+}
+.voltar-Usuario{
+	-fx-translate-x: 0px;
+	-fx-translate-y: -50px;
+}

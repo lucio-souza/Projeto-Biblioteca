@@ -25,8 +25,9 @@ public class LivroDao {
 			String genero=rset.getString("genero");
 			String status=rset.getString("status");
 			String autor=rset.getString("autor");			
-			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor);
 			livro.setId(rset.getInt("id"));
+			livro.setStatus(status);
 			livros.add(livro);
 		}
 		conn.close();
@@ -49,8 +50,9 @@ public class LivroDao {
 			String genero=rset.getString("genero");
 			String status=rset.getString("status");
 			String autor=rset.getString("autor");			
-			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor);
 			livro.setId(rset.getInt("id"));
+			livro.setStatus(status);
 			conn.close();
 			pstm.close();
 			rset.close();
@@ -74,8 +76,9 @@ public class LivroDao {
 			String genero=rset.getString("genero");
 			String status=rset.getString("status");
 			String autor=rset.getString("autor");			
-			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor);
 			livro.setId(rset.getInt("id"));
+			livro.setStatus(status);
 			conn.close();
 			pstm.close();
 			rset.close();

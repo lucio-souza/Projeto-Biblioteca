@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.Cliente;
 public class ViewClientes {
 		private Controller controller;
 		String cssFile = getClass().getResource("style.css").toExternalForm();
@@ -89,9 +90,11 @@ public class ViewClientes {
 	        Button btnAll= new Button("Mostrar Clientes");
 	    	btnAll.setId("botao-Mostrar-Clientes");
 	        btnAll.setOnAction(e -> {
-	        	ClienteDao cliente=new ClienteDao();
 	        	try {
-					System.out.println(cliente.getAll().toString());
+	        		ClienteDao cliente=new ClienteDao();
+	        		for(Cliente clientes:cliente.getAll()) {
+	        			System.out.println(clientes);
+	        		}
 	        	}catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -101,7 +104,7 @@ public class ViewClientes {
 	        
 	        Button btnDelete = new Button("Delete");
 	        btnDelete.setId("deletar-Cliente");
-	        btnDelete.setOnAction(e -> controller.VoltarTela());
+	        btnDelete.setOnAction(e -> controller.mostrarTelaDeleteCliente(stage));
 	        GridPane.setConstraints(btnDelete, 0, 1);
 
 	        gridPane.getChildren().addAll(labelTexto,labelCpf, labelTelefone,labelNome, campoCpf, campoTelefone,campoNome, botaoCriar,btnVoltar,btnAll,btnDelete);
@@ -189,9 +192,11 @@ public class ViewClientes {
 	        Button btnAll= new Button("Mostrar Clientes");
 	    	btnAll.setId("botao-Mostrar-Clientes");
 	        btnAll.setOnAction(e -> {
-	        	ClienteDao cliente=new ClienteDao();
 	        	try {
-					System.out.println(cliente.getAll().toString());
+	        		ClienteDao cliente=new ClienteDao();
+	        		for(Cliente clientes:cliente.getAll()) {
+	        			System.out.println(clientes);
+	        		}
 	        	}catch (SQLException e1) {
 					e1.printStackTrace();
 				}

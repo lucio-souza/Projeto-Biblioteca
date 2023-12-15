@@ -66,7 +66,7 @@ public class DeleteCliente {
         
         Button btnVoltar = new Button("Voltar");
         btnVoltar.getStyleClass().add("voltar-Delete");
-        btnVoltar.setOnAction(e -> controller.VoltarTela());
+        btnVoltar.setOnAction(e -> controller.mostrarTelaClientes(stage));
         GridPane.setConstraints(btnVoltar, 0, 1);
         
         gridPane.getChildren().addAll(labelTexto,labelCpf,campoCpf,botaoDelete, btnVoltar);
@@ -140,7 +140,7 @@ public class DeleteCliente {
         
         Button btnVoltar = new Button("Voltar");
         btnVoltar.getStyleClass().add("voltar-Delete");
-        btnVoltar.setOnAction(e -> controller.VoltarTela());
+        btnVoltar.setOnAction(e -> controller.mostrarTelaClientes(stage));
         GridPane.setConstraints(btnVoltar, 0, 1);
         
         gridPane.getChildren().addAll(labelTexto,labelCpf,campoCpf,botaoDelete, btnVoltar);

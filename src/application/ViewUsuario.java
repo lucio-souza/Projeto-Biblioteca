@@ -1,6 +1,7 @@
 package application;
 import java.sql.SQLException;
-import DAO.EmprestimoDao;
+
+import DAO.BibliotecarioDao;
 import controller.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.Bibliotecario;
 	
 public class ViewUsuario {
 		private Controller controller;
@@ -18,77 +20,82 @@ public class ViewUsuario {
 	        gridPane.setVgap(10);
 	        gridPane.setHgap(10);
 	        
-	        Label labelTexto=new Label("Emprestimos");
+	        Label labelTexto=new Label("Usuarios");
 	    	GridPane.setConstraints(labelTexto, 0,1);
-	    	labelTexto.setId("Titulo-Emprestimo");
+	    	labelTexto.setId("Titulo-Usuarios");
 
-	    	Label labelCpf = new Label("CPF:");
-	    	GridPane.setConstraints(labelCpf, 1, 4);
-	    	labelCpf.getStyleClass().add("label-emprestimo");
+	    	Label labelEmail= new Label("Email:");
+	    	GridPane.setConstraints(labelEmail, 1, 2);
+	    	labelEmail.getStyleClass().add("label-Usuario");
 
-	    	Label labelTitulo = new Label("titulo:");
-	    	GridPane.setConstraints(labelTitulo, 1, 5);
-	    	labelTitulo.getStyleClass().add("label-emprestimo");
+	    	Label labelSenha= new Label("Senha:");
+	    	GridPane.setConstraints(labelSenha, 1, 3);
+	    	labelSenha.getStyleClass().add("label-Usuario");
 
-	    	TextField campoCpf = new TextField();
-	    	GridPane.setConstraints(campoCpf, 2, 4);
-	    	campoCpf.getStyleClass().add("campo-emprestimo");
+	    	TextField campoEmail = new TextField();
+	    	GridPane.setConstraints(campoEmail, 2, 2);
+	    	campoEmail.getStyleClass().add("campo-Usuario");
 
-	    	TextField campoTitulo = new TextField();
-	    	GridPane.setConstraints(campoTitulo, 2, 5);
-	    	campoTitulo.getStyleClass().add("campo-emprestimo");
+	    	TextField campoSenha = new TextField();
+	    	GridPane.setConstraints(campoSenha, 2, 3);
+	    	campoSenha.getStyleClass().add("campo-Usuario");
 
-	    	Button botaoEmprestar= new Button("Fazer Emprestimos");
-	    	botaoEmprestar.setId("botao-Emprestimo");
-	        botaoEmprestar.setOnAction(e -> {
-	            if(!campoCpf.getText().isEmpty() && !campoTitulo.getText().isEmpty()) {
-	            	    String cpf = campoCpf.getText();
-	            	    String Titulo=campoTitulo.getText();
-	            	    boolean verificador=controller.FazerEmprestimo(cpf, Titulo);
+	    	Button btnUsuario= new Button("Criar Usuario");
+	    	btnUsuario.setId("criar-Usuario");
+	        btnUsuario.setOnAction(e -> {
+	            if(!campoEmail.getText().isEmpty() && !campoSenha.getText().isEmpty()) {
+	            	    String email = campoEmail.getText();
+	            	    int senha = Integer.parseInt(campoSenha.getText());
+	            	    boolean verificador=controller.CriarUsuario(email, senha);
 	            	    if(verificador==true) {
 	            	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                    	Label labelInvalid=new Label("Emprestimo realizado com sucesso");
-	                        labelInvalid.getStyleClass().add("erro-Emprestimo");
-	                        labelInvalid.setId("sucesso-emprestimo");
+	                    	Label labelInvalid=new Label("Usuario criado com sucesso");
+	                        labelInvalid.getStyleClass().add("sucesso-Usuario");
 	                        GridPane.setConstraints(labelInvalid, 0, 0);
 	                        gridPane.getChildren().add(labelInvalid);
 	            	    }else {
 	            	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                    	Label labelInvalid=new Label("Emprestimo negado");
-	                        labelInvalid.getStyleClass().add("erro-Emprestimo");
+	                    	Label labelInvalid=new Label("Erro ao criar Usuario");
+	                        labelInvalid.getStyleClass().add("erro-Usuario");
 	                        GridPane.setConstraints(labelInvalid, 0, 0);
 	                        gridPane.getChildren().add(labelInvalid);
 	            	    }
 	            }else {
 	            	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
 	            	Label labelInvalid=new Label("Erro:campos em branco");
-	                labelInvalid.getStyleClass().add("erro-Emprestimo");
+	                labelInvalid.getStyleClass().add("erro-Usuario");
 	                GridPane.setConstraints(labelInvalid, 0, 0);
 	                gridPane.getChildren().add(labelInvalid);
 	            }
 
 	        });
-	        GridPane.setConstraints(botaoEmprestar, 0, 1);
+	        GridPane.setConstraints(btnUsuario, 0, 1);
 	        
 	        Button btnVoltar = new Button("Voltar");
-	        btnVoltar.getStyleClass().add("botao-voltar");
+	        btnVoltar.getStyleClass().add("voltar-Usuario");
 	        btnVoltar.setOnAction(e -> controller.VoltarTela());
-	        GridPane.setConstraints(btnVoltar, 0, 1);
+	        GridPane.setConstraints(btnVoltar, 0,1);
 	        
-	        Button btnAll= new Button("Mostrar Emprestimos");
-	    	btnAll.setId("botao-Mostrar-Emprestimos");
+	        Button btnAll= new Button("Mostrar Usuarios");
+	    	btnAll.setId("Mostrar-Usuario");
 	        btnAll.setOnAction(e -> {
-	        	EmprestimoDao emprestimos=new EmprestimoDao();
 	        	try {
-					System.out.println(emprestimos.getAll().toString());
+	        		BibliotecarioDao usuario=new BibliotecarioDao();
+	        		for(Bibliotecario usuarios:usuario.getAll()) {
+	        			System.out.println(usuarios.toString());
+	        		}
 	        	}catch (SQLException e1) {
-					// TODO Bloco catch gerado automaticamente
 					e1.printStackTrace();
 				}
 	        });
-	        GridPane.setConstraints(btnAll, 0, 2);
+	        GridPane.setConstraints(btnAll, 1, 0);
+	        
+	        Button btnDelete = new Button("Delete");
+	        btnDelete.setId("deletar-Usuario");
+	        btnDelete.setOnAction(e -> controller.mostrarTelaDeleteUsuario(stage));
+	        GridPane.setConstraints(btnDelete, 1, 0);
 
-	        gridPane.getChildren().addAll(labelTexto,labelCpf, labelTitulo, campoCpf, campoTitulo, botaoEmprestar,btnVoltar,btnAll);
+	        gridPane.getChildren().addAll(labelTexto,labelEmail, labelSenha, campoEmail ,campoSenha, btnUsuario,btnAll,btnVoltar,btnDelete);
 
 	        Scene scene = new Scene(gridPane, 700, 500);
 	        scene.getStylesheets().add(cssFile);
@@ -102,77 +109,82 @@ public class ViewUsuario {
 	    	gridPane.setVgap(10);
 	    	gridPane.setHgap(10);
 
-	    	Label labelTexto=new Label("Emprestimos");
+	    	Label labelTexto=new Label("Usuarios");
 	    	GridPane.setConstraints(labelTexto, 0,1);
-	    	labelTexto.setId("Titulo-Emprestimo");
+	    	labelTexto.setId("Titulo-Usuarios");
 
-	    	Label labelCpf = new Label("CPF:");
-	    	GridPane.setConstraints(labelCpf, 1, 4);
-	    	labelCpf.getStyleClass().add("label-emprestimo");
+	    	Label labelEmail= new Label("Email:");
+	    	GridPane.setConstraints(labelEmail, 1, 2);
+	    	labelEmail.getStyleClass().add("label-Usuario");
 
-	    	Label labelTitulo = new Label("titulo:");
-	    	GridPane.setConstraints(labelTitulo, 1, 5);
-	    	labelTitulo.getStyleClass().add("label-emprestimo");
+	    	Label labelSenha= new Label("Senha:");
+	    	GridPane.setConstraints(labelSenha, 1, 3);
+	    	labelSenha.getStyleClass().add("label-Usuario");
 
-	    	TextField campoCpf = new TextField();
-	    	GridPane.setConstraints(campoCpf, 2, 4);
-	    	campoCpf.getStyleClass().add("campo-emprestimo");
+	    	TextField campoEmail = new TextField();
+	    	GridPane.setConstraints(campoEmail, 2, 2);
+	    	campoEmail.getStyleClass().add("campo-Usuario");
 
-	    	TextField campoTitulo = new TextField();
-	    	GridPane.setConstraints(campoTitulo, 2, 5);
-	    	campoTitulo.getStyleClass().add("campo-emprestimo");
+	    	TextField campoSenha = new TextField();
+	    	GridPane.setConstraints(campoSenha, 2, 3);
+	    	campoSenha.getStyleClass().add("campo-Usuario");
 
-	    	Button botaoEmprestar= new Button("Fazer Emprestimos");
-	    	botaoEmprestar.setId("botao-Emprestimo");
-	    	botaoEmprestar.setOnAction(e -> {
-	    		if(!campoCpf.getText().isEmpty() && !campoTitulo.getText().isEmpty()) {
-	        	    String cpf = campoCpf.getText();
-	        	    String Titulo=campoTitulo.getText();
-	        	    boolean verificador=controller.FazerEmprestimo(cpf, Titulo);
-	        	    if(verificador==true) {
-	        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                	Label labelInvalid=new Label("Emprestimo realizado com sucesso");
-	                    labelInvalid.getStyleClass().add("erro-Emprestimo");
-	                    GridPane.setConstraints(labelInvalid, 0, 0);
-	                    gridPane.getChildren().add(labelInvalid);
-	        	    }else {
-	        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                	Label labelInvalid=new Label("Emprestimo negado");
-	                    labelInvalid.getStyleClass().add("erro-Emprestimo");
-	                    GridPane.setConstraints(labelInvalid, 0, 0);
-	                    gridPane.getChildren().add(labelInvalid);
-	        	    }
-	        }else {
-	        	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	        	Label labelInvalid=new Label("Erro:campos em branco");
-	            labelInvalid.getStyleClass().add("erro-Emprestimo");
-	            GridPane.setConstraints(labelInvalid, 0, 0);
-	            gridPane.getChildren().add(labelInvalid);
-	        }
+	    	Button btnUsuario= new Button("Criar Usuario");
+	    	btnUsuario.setId("criar-Usuario");
+	        btnUsuario.setOnAction(e -> {
+	            if(!campoEmail.getText().isEmpty() && !campoSenha.getText().isEmpty()) {
+	            	    String email = campoEmail.getText();
+	            	    int senha = Integer.parseInt(campoSenha.getText());
+	            	    boolean verificador=controller.CriarUsuario(email, senha);
+	            	    if(verificador==true) {
+	            	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+	                    	Label labelInvalid=new Label("Usuario criado com sucesso");
+	                        labelInvalid.getStyleClass().add("sucesso-Usuario");
+	                        GridPane.setConstraints(labelInvalid, 0, 0);
+	                        gridPane.getChildren().add(labelInvalid);
+	            	    }else {
+	            	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+	                    	Label labelInvalid=new Label("Erro ao criar Usuario");
+	                        labelInvalid.getStyleClass().add("erro-Usuario");
+	                        GridPane.setConstraints(labelInvalid, 0, 0);
+	                        gridPane.getChildren().add(labelInvalid);
+	            	    }
+	            }else {
+	            	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+	            	Label labelInvalid=new Label("Erro:campos em branco");
+	                labelInvalid.getStyleClass().add("erro-Usuario");
+	                GridPane.setConstraints(labelInvalid, 0, 0);
+	                gridPane.getChildren().add(labelInvalid);
+	            }
 
-	    	});
-	    	GridPane.setConstraints(botaoEmprestar, 0, 1);
+	        });
+	        GridPane.setConstraints(btnUsuario, 0, 1);
 	        
 	        Button btnVoltar = new Button("Voltar");
-	        btnVoltar.getStyleClass().add("botao-voltar");
+	        btnVoltar.getStyleClass().add("voltar-Usuario");
 	        btnVoltar.setOnAction(e -> controller.VoltarTela());
 	        GridPane.setConstraints(btnVoltar, 0, 1);
 	        
-	        Button btnAll= new Button("Mostrar Emprestimos");
-	    	btnAll.setId("botao-Mostrar-Emprestimos");
+	        Button btnAll= new Button("Mostrar Usuarios");
+	    	btnAll.setId("Mostrar-Usuario");
 	        btnAll.setOnAction(e -> {
-	        	EmprestimoDao emprestimos=new EmprestimoDao();
 	        	try {
-					System.out.println(emprestimos.getAll().toString());
+	        		BibliotecarioDao usuario=new BibliotecarioDao();
+	        		for(Bibliotecario usuarios:usuario.getAll()) {
+	        			System.out.println(usuarios.toString());
+	        		}
 	        	}catch (SQLException e1) {
-					// TODO Bloco catch gerado automaticamente
 					e1.printStackTrace();
 				}
 	        });
+	        GridPane.setConstraints(btnAll, 1, 0);
 	        
-	        GridPane.setConstraints(btnAll, 0, 2);
+	        Button btnDelete = new Button("Delete");
+	        btnDelete.setId("deletar-Usuario");
+	        btnDelete.setOnAction(e -> controller.mostrarTelaDeleteUsuario(stage));
+	        GridPane.setConstraints(btnDelete, 1, 0);
 
-	        gridPane.getChildren().addAll(labelTexto,labelCpf, labelTitulo, campoCpf, campoTitulo, botaoEmprestar,btnVoltar,btnAll);
+	        gridPane.getChildren().addAll(labelTexto,labelEmail, labelSenha, campoEmail ,campoSenha, btnUsuario,btnAll,btnVoltar,btnDelete);
 
 	        Scene scene = new Scene(gridPane, 700, 500);
 	        scene.getStylesheets().add(cssFile);
