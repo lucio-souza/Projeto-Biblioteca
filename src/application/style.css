@@ -262,3 +262,9 @@
 	-fx-translate-x: 0px;
 	-fx-translate-y: -50px;
 }
+#delete-email{
+	-fx-translate-x:130px
+}
+#delete-Titulo{
+	-fx-translate-x: 130px;
+}

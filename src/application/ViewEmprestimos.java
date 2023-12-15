@@ -133,7 +133,7 @@ public class ViewEmprestimos {
         	    if(verificador==true) {
         	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
                 	Label labelInvalid=new Label("Emprestimo realizado com sucesso");
-                    labelInvalid.getStyleClass().add("erro-Emprestimo");
+                    labelInvalid.getStyleClass().add("sucesso-emprestimo");
                     GridPane.setConstraints(labelInvalid, 0, 0);
                     gridPane.getChildren().add(labelInvalid);
         	    }else {

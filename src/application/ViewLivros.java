@@ -1,6 +1,8 @@
 package application;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 import DAO.LivroDao;
 import controller.*;
 import javafx.scene.Scene;
@@ -63,8 +65,9 @@ public class ViewLivros {
 	    	Button botaoCriar= new Button("Criar Livro");
 	    	botaoCriar.setId("criar-Livro");
 	    	botaoCriar.setOnAction(e -> {
-	    		if(!campoTitulo.getText().isEmpty() && !campoDt.getText().isEmpty() && !campoAutor.getText().isEmpty() && !campoGenero.getText().isEmpty()) {
-	        	    String autor = campoAutor.getText();
+	    		if(!campoTitulo.getText().isEmpty() && !campoDt.getText().isEmpty() && !campoAutor.getText().isEmpty() && !campoGenero.getText().isEmpty()){	
+	        	   try {
+	        		String autor = campoAutor.getText();
 	        	    String Titulo=campoTitulo.getText();
 	        	    String genero=campoGenero.getText();
 	        	    String DtString=campoDt.getText();
@@ -83,14 +86,20 @@ public class ViewLivros {
 	                    GridPane.setConstraints(labelInvalid, 0, 0);
 	                    gridPane.getChildren().add(labelInvalid);
 	        	    }
-	        }else {
+	        }catch(DateTimeParseException ex){
+	        	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+            	Label labelInvalid=new Label("Data Invalida");
+                labelInvalid.getStyleClass().add("erro-Livro");
+                GridPane.setConstraints(labelInvalid, 0, 0);
+                gridPane.getChildren().add(labelInvalid);
+	        }
+	    	}else {
 	        	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
 	        	Label labelInvalid=new Label("Erro:campos em branco");
 	            labelInvalid.getStyleClass().add("erro-Livro");
 	            GridPane.setConstraints(labelInvalid, 0, 0);
 	            gridPane.getChildren().add(labelInvalid);
-	        }
-
+	    		}
 	    	});
 	    	GridPane.setConstraints(botaoCriar, 0, 1);
 	        
@@ -178,34 +187,41 @@ public class ViewLivros {
 	    	botaoCriar.setId("criar-Livro");
 	    	botaoCriar.setOnAction(e -> {
 	    		if(!campoTitulo.getText().isEmpty() && !campoDt.getText().isEmpty() && !campoAutor.getText().isEmpty() && !campoGenero.getText().isEmpty()) {
-	        	    String autor = campoAutor.getText();
-	        	    String Titulo=campoTitulo.getText();
-	        	    String genero=campoGenero.getText();
-	        	    String DtString=campoDt.getText();
-	        	    LocalDate Dt=LocalDate.parse(DtString);
-	        	    boolean verificador=controller.CriarLivro(Titulo, autor, genero, Dt);
-	        	    if(verificador==true) {
-	        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                	Label labelInvalid=new Label("Livro criado com sucesso");
-	                    labelInvalid.getStyleClass().add("Sucesso-Livro");
-	                    GridPane.setConstraints(labelInvalid, 0, 0);
-	                    gridPane.getChildren().add(labelInvalid);
-	        	    }else {
-	        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	                	Label labelInvalid=new Label("Erro ao criar Livro");
-	                    labelInvalid.getStyleClass().add("erro-Livro");
-	                    GridPane.setConstraints(labelInvalid, 0, 0);
-	                    gridPane.getChildren().add(labelInvalid);
-	        	    }
-	        }else {
-	        	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
-	        	Label labelInvalid=new Label("Erro:campos em branco");
-	            labelInvalid.getStyleClass().add("erro-Livro");
-	            GridPane.setConstraints(labelInvalid, 0, 0);
-	            gridPane.getChildren().add(labelInvalid);
-	        }
-
-	    	});
+	    			try {
+		        		String autor = campoAutor.getText();
+		        	    String Titulo=campoTitulo.getText();
+		        	    String genero=campoGenero.getText();
+		        	    String DtString=campoDt.getText();
+		        	    LocalDate Dt=LocalDate.parse(DtString);
+		        	    boolean verificador=controller.CriarLivro(Titulo, autor, genero, Dt);
+		        	    if(verificador==true) {
+		        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+		                	Label labelInvalid=new Label("Livro criado com sucesso");
+		                    labelInvalid.getStyleClass().add("Sucesso-Livro");
+		                    GridPane.setConstraints(labelInvalid, 0, 0);
+		                    gridPane.getChildren().add(labelInvalid);
+		        	    }else {
+		        	    	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+		                	Label labelInvalid=new Label("Erro ao criar Livro");
+		                    labelInvalid.getStyleClass().add("erro-Livro");
+		                    GridPane.setConstraints(labelInvalid, 0, 0);
+		                    gridPane.getChildren().add(labelInvalid);
+		        	    }
+		        }catch(DateTimeParseException ex){
+		        	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+	            	Label labelInvalid=new Label("Data Invalida");
+	                labelInvalid.getStyleClass().add("erro-Livro");
+	                GridPane.setConstraints(labelInvalid, 0, 0);
+	                gridPane.getChildren().add(labelInvalid);
+		        }
+		    	}else {
+		        	gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0); 
+		        	Label labelInvalid=new Label("Erro:campos em branco");
+		            labelInvalid.getStyleClass().add("erro-Livro");
+		            GridPane.setConstraints(labelInvalid, 0, 0);
+		            gridPane.getChildren().add(labelInvalid);
+		    		}
+		    	});
 	    	GridPane.setConstraints(botaoCriar, 0, 1);
 	        
 	        Button btnVoltar = new Button("Voltar");

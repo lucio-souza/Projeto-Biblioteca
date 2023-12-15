@@ -27,6 +27,7 @@ public class ViewUsuario {
 	    	Label labelEmail= new Label("Email:");
 	    	GridPane.setConstraints(labelEmail, 1, 2);
 	    	labelEmail.getStyleClass().add("label-Usuario");
+	    	labelEmail.setId("delete-Titulo");
 
 	    	Label labelSenha= new Label("Senha:");
 	    	GridPane.setConstraints(labelSenha, 1, 3);
@@ -116,6 +117,7 @@ public class ViewUsuario {
 	    	Label labelEmail= new Label("Email:");
 	    	GridPane.setConstraints(labelEmail, 1, 2);
 	    	labelEmail.getStyleClass().add("label-Usuario");
+	    	labelEmail.setId("delete-Titulo");
 
 	    	Label labelSenha= new Label("Senha:");
 	    	GridPane.setConstraints(labelSenha, 1, 3);

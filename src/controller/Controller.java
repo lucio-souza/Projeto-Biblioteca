@@ -143,9 +143,9 @@ public class Controller {
     	deleteCliente.mostrar(stage);
     }
     public void mostrarTelaDeleteLivro(Stage stage) {
-    	//deleteLivro.mostrar(stage);
+    	deleteLivro.mostrar(stage);
     }
     public void mostrarTelaDeleteUsuario(Stage stage) {
-    	//deleteUsuario.mostrar(stage);
+    	deleteUsuario.mostrar(stage);
     }
 }

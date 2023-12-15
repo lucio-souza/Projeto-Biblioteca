@@ -18,8 +18,8 @@ public class Main extends Application {
         ViewLivros viewLivros=new ViewLivros(primaryStage);
         ViewUsuario viewUsuario=new ViewUsuario(primaryStage);
         DeleteCliente deleteCliente=new DeleteCliente(primaryStage);
-        DeleteLivro deleteLivro=new DeleteLivro();
-        DeleteUsuario deleteUsuario=new DeleteUsuario();
+        DeleteLivro deleteLivro=new DeleteLivro(primaryStage);
+        DeleteUsuario deleteUsuario=new DeleteUsuario(primaryStage);
         Controller controller = new Controller(viewLogin, viewPrincipal,viewEmprestimos,viewClientes,viewLivros,viewUsuario,deleteCliente,deleteLivro,deleteUsuario);
 
         controller.iniciar();
