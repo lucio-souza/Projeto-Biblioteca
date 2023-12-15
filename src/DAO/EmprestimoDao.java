@@ -7,12 +7,15 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
+
+import model.Cliente;
 import model.Emprestimo;
+import model.Livro;
 
 import java.time.LocalDate;
 public class EmprestimoDao {
 	
-	public List<Emprestimo> getAll()throws SQLIntegrityConstraintViolationException,SQLException{
+	public List<Emprestimo> getAll()throws SQLException{
 		String sql="select * from Emprestimo";
 
 		List<Emprestimo> emprestimos=new ArrayList<>();
@@ -78,16 +81,23 @@ public class EmprestimoDao {
         return rs.next();
     }
 	
-	public void emprestar(Emprestimo emprestimo) throws SQLIntegrityConstraintViolationException,SQLException{
+	public boolean emprestar(String cpf,String titulo) throws NullPointerException,SQLIntegrityConstraintViolationException,SQLException{
+
+	    Cliente cliente = ClienteDao.getOneByCpf(cpf);
+	    Livro livro = LivroDao.getOneByTitulo(titulo);
 		String sql="insert into Emprestimo(idcliente,idlivro,dtreserva,dtentrega)values(?,?,?,?)";
+		if(cliente!=null && livro!=null) {
+		int idCliente=ClienteDao.getOneByCpf(cpf).getId();
+		int idLivro=LivroDao.getOneByTitulo(titulo).getId();
 		
-		if(!verificarEmprestimoPendente(emprestimo.getIdCliente())) {
-			if(LivroDao.getOneByID(emprestimo.getIdLivro()).getStatus().equals("disponivel")){
+		if(!verificarEmprestimoPendente(idCliente)) {
+			if(LivroDao.getOneByID(idLivro).getStatus().equals("disponivel")){
 				Connection conn=ConexaoDAO.conectarBD();
 				PreparedStatement pstm=conn.prepareStatement(sql);
+				Emprestimo emprestimo=new Emprestimo(idCliente,idLivro,LocalDate.now());
 				
-				pstm.setInt(1, emprestimo.getIdCliente());
-				pstm.setInt(2, emprestimo.getIdLivro());
+				pstm.setInt(1, idCliente);
+				pstm.setInt(2, idLivro);
 				pstm.setObject(3, emprestimo.getDtReserva());
 				pstm.setObject(4, emprestimo.getDtentrega());
 				pstm.executeUpdate();
@@ -97,12 +107,18 @@ public class EmprestimoDao {
 				livrodao.atualizarStatus(emprestimo.getIdLivro(),status);
 				conn.close();
 				pstm.close();
+				return true;
 			}else {
 				System.out.println("livro indisponivel");
 			}
 		}else {
 			System.out.println("o cliente tem pendências");
 		}
+		}else {
+			System.out.println("cpf ou titulo invalido");
+		}
+		return false;
+
 	}
 	public void devolverLivro(int id) throws SQLException{
 		String sql="update Emprestimo set status=? where id=?";

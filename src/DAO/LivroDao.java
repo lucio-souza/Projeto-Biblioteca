@@ -60,6 +60,31 @@ public class LivroDao {
 		return null;
 	}
 	
+	public static Livro getOneByTitulo(String titulo)throws SQLException{
+		String sql="select * from Livro where titulo = ?";
+		Connection conn=ConexaoDAO.conectarBD();
+		PreparedStatement pstm=conn.prepareStatement(sql);
+		
+		pstm.setString(1, titulo);
+		ResultSet rset=pstm.executeQuery();
+		
+		if(rset.next()) {
+			rset.getString("titulo");
+			java.sql.Date sqlDate=rset.getDate("dtpublicacao");
+			String genero=rset.getString("genero");
+			String status=rset.getString("status");
+			String autor=rset.getString("autor");			
+			Livro livro=new Livro(titulo,sqlDate.toLocalDate(),genero,autor,status);
+			livro.setId(rset.getInt("id"));
+			conn.close();
+			pstm.close();
+			rset.close();
+			
+			return livro;
+		}
+		return null;
+	}
+	
 	public void create(Livro livro) throws SQLIntegrityConstraintViolationException,SQLException{
 		String sql="insert into Livro(titulo,dtPublicacao,genero,autor) values(?,?,?,?)";
 		Connection conn=ConexaoDAO.conectarBD();
