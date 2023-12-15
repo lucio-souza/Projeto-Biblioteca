@@ -45,6 +45,7 @@
 	-fx-pref-width: 200px;
 	-fx-pref-height: 50px;
 }
+
 #Titulo-Emprestimo{
 	-fx-font-size: 35px;
 	-fx-translate-x: 220px;
@@ -267,4 +268,3 @@
 }
 #delete-Titulo{
 	-fx-translate-x: 130px;
-}
