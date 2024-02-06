@@ -45,4 +45,4 @@ MySQL (Banco de Dados produção)
 # Front-End
 
 
-JavaFx(Framework)
+JavaFX(Framework)
