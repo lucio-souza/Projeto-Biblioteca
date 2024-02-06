@@ -34,8 +34,10 @@ Tecnologias usadas
 # Back-End
 
 
-Java (Linguagem de Programação
+Java (Linguagem de Programação)
+
 JDBC (Persistência dos Dados no Banco de Dados)
+
 MySQL (Banco de Dados produção)
 
 
