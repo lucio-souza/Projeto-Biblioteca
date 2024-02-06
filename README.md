@@ -23,5 +23,5 @@ pessoa.
 A programação orientada a objeto será implemenetada na 
 criação das 'entidades' que são classes e por sua vez intanciações das 
 classes, objeto. Como por exemplo a classe que poderá representar a 
-Tarefa, categorias, os lembretes utilizando outros tópicos de POO para 
+Clientes,Livros utilizando outros tópicos de POO para 
 representar relacionamentos, métodos entres as classes e etc.
